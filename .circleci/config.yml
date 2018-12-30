@@ -2,7 +2,9 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/ruby:2.4.1
+      - image: circleci/golang
     steps:
       - checkout
-      - run: notacommand
+      - run: echo "Hello World"	
+      - run: go run main.go
+
