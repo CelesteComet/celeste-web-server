@@ -19,11 +19,11 @@ jobs:
           go run main.go  
 
 workflows:
-  version: 2  
+  version: 2
   my_workflow:
-    jobs: 
+    jobs:
       - test
       - run:
-        requires:
-          - test 
+          requires:
+            - test 
 
