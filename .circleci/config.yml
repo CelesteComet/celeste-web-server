@@ -1,12 +1,17 @@
 version: 2
 jobs:
-  build:
+  test:
     docker:
       - image: circleci/golang
     steps:
       - checkout
       - run: |
-          echo Running Go Tests
+          echo Running Go Tests\n
           go test
-          echo Go Test Complete
+          echo Go Test Complete\n
+  run:
+    docker:
+      - image: circleci/golang
+    steps:
+      - run: |
           go run main.go
