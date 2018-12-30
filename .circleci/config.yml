@@ -19,8 +19,10 @@ jobs:
 
 workflows:
   version: 2  
-  test_and_run:
+  test:
     jobs:
       - test
-      - run 
+  run:
+    jobs:
+      - run
 
