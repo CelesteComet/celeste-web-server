@@ -20,10 +20,10 @@ jobs:
 
 workflows:
   version: 2  
-  test:
-    jobs:
+  my_workflow:
+    jobs: 
       - test
-  run:
-    jobs:
-      - run
+      - run:
+        requires:
+          -test 
 
