@@ -5,6 +5,9 @@ jobs:
       - image: circleci/golang
     steps:
       - checkout
-      - run: echo "Hello World"	
-      - run: go run main.go
-
+      - run:
+		command: |
+			echo Running Go Tests
+			go test
+			echo Go Test Complete
+			go run main.go
