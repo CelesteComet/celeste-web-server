@@ -10,20 +10,18 @@ jobs:
           echo Running Go Tests\n
           go test
           echo Go Test Complete\n
-  run:
+  deploy:
     docker:
       - image: circleci/golang
     steps:
       - checkout
-      - run: |
-          go run main.go  
 
 workflows:
   version: 2
   my_workflow:
     jobs:
       - test
-      - run:
+      - deploy:
           requires:
             - test 
 
