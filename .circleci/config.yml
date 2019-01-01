@@ -1,27 +1,57 @@
 version: 2
-
 jobs:
+  setup:
+    docker:
+      - image: circleci/golang
+    steps:
+      - checkout
+      - save_cache: # Caches dependencies with a cache key
+          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+          paths:
+            - ~/celeste-web-server
+
+  build:
+    docker:
+      - image: circleci/golang
+    steps:
+      - restore_cache: # Restores the cached dependency.
+          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+      - run:
+          name: Building Binaries and Precompiling Assets
+          command: echo Building Binaries and Precompliling Assets
   test:
     docker:
       - image: circleci/golang
     steps:
-      - checkout
-      - run: |
-          echo Running Go Tests\n
-          go test
-          echo Go Test Complete\n
+      - restore_cache: # Restores the cached dependency.
+          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+      - run:
+          name: Running Tests
+          command: go test
+
   deploy:
     docker:
       - image: circleci/golang
-    steps:
-      - checkout
+    steps: 
+      - restore_cache: # Restores the cached dependency.
+          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+      - run:
+          name: Deploying 
+          command: echo Deploying stuff
 
 workflows:
   version: 2
-  my_workflow:
+  build_and_test: # name of your workflow
     jobs:
-      - test
+      - setup
+      - build:
+        requires:
+           - setup 
+      - test:
+        requires:
+           - build 
       - deploy:
-          requires:
-            - test 
+        requires:
+           - test 
+
 
