@@ -22,8 +22,9 @@ jobs:
           name: Build and push Docker image
           command: |
             docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-            docker build -t $DOCKER_NAME/celeste-comet/$IMAGE_NAME:$TAG .
-            docker push $DOCKERNAME/celeste-comet/$IMAGE_NAME:$TAG
+            docker build -t celeste-comet/$IMAGE_NAME:$TAG .
+            docker tag celeste-comet/$IMAGE_NAME:$TAG brucewong21/celeste-comet/$IMAGE_NAME:$TAG
+            docker push brucewong21/celeste-comet/$IMAGE_NAME:$TAG
        #     ssh -o StrictHostKeyChecking=no ec2-user@ec2-100-26-187-62.compute-1.amazonaws.com
       #- run:
           #name: Deploy app to Digital Ocean Server via Docker
