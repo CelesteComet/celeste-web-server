@@ -21,7 +21,8 @@ jobs:
           name: Build and push Docker image
           command: |
             docker build -t sally/$IMAGE_NAME:$TAG .
-            ssh -o StrictHostKeyChecking=no ec2-user@ec2-100-26-187-62.compute-1.amazonaws.com
+            docker push sally/$IMAGE_NAME:$TAG
+       #     ssh -o StrictHostKeyChecking=no ec2-user@ec2-100-26-187-62.compute-1.amazonaws.com
       #- run:
           #name: Deploy app to Digital Ocean Server via Docker
           #command: |
