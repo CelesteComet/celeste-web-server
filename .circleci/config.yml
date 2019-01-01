@@ -1,33 +1,27 @@
-version: 2 # use CircleCI 2.0
-jobs: # basic units of work in a run
-  build: # runs not using Workflows must have a `build` job as entry point
-    docker: # run the steps with Docker
-      # CircleCI Go images available at: https://hub.docker.com/r/circleci/golang/
-      - image: circleci/golang:1.8 #
-      # CircleCI PostgreSQL images available at: https://hub.docker.com/r/circleci/postgres/
-    # directory where steps are run. Path must conform to the Go Workspace requirements
-    working_directory: /go/src/github.com/CelesteComet/celeste-web-server
-
-    steps: # steps that comprise the `build` job
-      - checkout # check out source code to working directory
-      # Normally, this step would be in a custom primary image;
-
-      # we've added it here for the sake of explanation.
-      #- run: go get github.com/lib/pq
-      #- run: go get github.com/mattes/migrate
-      #- run: go get github.com/jstemmer/go-junit-report
-
-      #  CircleCi's Go Docker image includes netcat
-      #  This allows polling the DB port to confirm it is open before proceeding
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/golang
+    steps:
+      - checkout
       - run:
-          name: Run unit tests
+          name: Setup Environment
+          command: |
+            echo 'export TAG=0.1.${CIRCLE_BUILD_NUM}' >> $BASH_ENV
+            echo 'export IMAGE_NAME=celeste-web-server' >> $BASH_ENV 
+      - run:
+          name: Run Tests
           command: |
             go test
-
+      - setup_remote_docker:
+          docker_layer_caching: true
       - run:
-          name: Deploy
+          name: Build and push Docker image
           command: |
-            echo Deploying Go Application by running 
-
-          # build the go binaries
-          # push the
+            docker build -t sally/$IMAGE_NAME:$TAG .
+            echo $DOCKER_PWD | docker login -u $DOCKER_LOGIN --password-stdin
+      #- run:
+          #name: Deploy app to Digital Ocean Server via Docker
+          #command: |
+          #  ssh -o StrictHostKeyChecking=no root@hello.dpunks.org "/bin/bash ./deploy_app.sh ariv3ra/$IMAGE_NAME:$TAG"
