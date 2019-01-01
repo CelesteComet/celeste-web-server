@@ -8,7 +8,7 @@ jobs:
       - save_cache: # Caches dependencies with a cache key
           key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
           paths:
-            - ~/celeste-web-server
+            - ".git"
 
   build:
     docker:
