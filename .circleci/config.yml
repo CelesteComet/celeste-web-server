@@ -45,14 +45,14 @@ workflows:
     jobs:
       - setup
       - build:
-        requires:
-          - setup 
+          requires:
+              - setup 
       - test:
-        requires:
-          - build 
+          requires:
+              - build 
       - deploy:
-        requires:
-           - test 
+          requires:
+              - test 
 
 
 
