@@ -21,6 +21,7 @@ jobs:
           name: Build and push Docker image
           command: |
             docker build -t sally/$IMAGE_NAME:$TAG .
+            ssh -i "Sally.pem" root@ec2-100-26-187-62.compute-1.amazonaws.com
       #- run:
           #name: Deploy app to Digital Ocean Server via Docker
           #command: |
