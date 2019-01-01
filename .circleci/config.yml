@@ -25,6 +25,9 @@ jobs: # basic units of work in a run
             go test
 
       - run:
-          name: Start service
-          command: go run main.go
-          background: true # keep service running and proceed to next step
+          name: Deploy
+          command: |
+            echo Deploying Go Application by running 
+
+          # build the go binaries
+          # push the
