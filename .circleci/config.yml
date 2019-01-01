@@ -26,5 +26,5 @@ jobs: # basic units of work in a run
 
       - run:
           name: Start service
-          command: go main.go
+          command: go run main.go
           background: true # keep service running and proceed to next step
