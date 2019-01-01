@@ -20,7 +20,6 @@ jobs:
           name: Build and push Docker image
           command: |
             docker build -t sally/$IMAGE_NAME:$TAG .
-            echo $DOCKER_PWD | docker login -u $DOCKER_LOGIN --password-stdin
       #- run:
           #name: Deploy app to Digital Ocean Server via Docker
           #command: |
