@@ -12,7 +12,11 @@ RUN go get
 # Build Binary
 RUN go build .
 
+# Run server when container is run
+
 CMD ./celeste-web-server
+
+# Expose port 8080 of container
 
 EXPOSE 8080 
 

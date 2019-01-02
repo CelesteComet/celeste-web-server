@@ -26,8 +26,4 @@ jobs:
             docker build -t $IMAGE_NAME:$TAG .
             docker tag $IMAGE_NAME:$TAG brucewong21/$IMAGE_NAME:$TAG
             docker push brucewong21/$IMAGE_NAME:$TAG
-       #     ssh -o StrictHostKeyChecking=no ec2-user@ec2-100-26-187-62.compute-1.amazonaws.com
-      #- run:
-          #name: Deploy app to Digital Ocean Server via Docker
-          #command: |
-          #  ssh -o StrictHostKeyChecking=no root@hello.dpunks.org "/bin/bash ./deploy_app.sh ariv3ra/$IMAGE_NAME:$TAG"
+            ssh -o StrictHostKeyChecking=no ec2-user@ec2-3-83-99-75.compute-1.amazonaws.com "/bin/bash ./deploy_app.sh"
