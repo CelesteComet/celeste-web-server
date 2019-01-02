@@ -10,7 +10,7 @@ jobs:
           name: Setup Environment
           command: |
             echo 'export BUILD_NUM=0.1.${CIRCLE_BUILD_NUM}' >> $BASH_ENV
-            echo 'export TAG='latest' >> $BASH_ENV
+            echo 'export TAG=latest' >> $BASH_ENV
             echo 'export IMAGE_NAME=celeste-web-server' >> $BASH_ENV 
             echo 'export DOCKER_NAME=brucewong21' >> $BASH_ENV
       - run:
