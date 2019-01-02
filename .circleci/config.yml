@@ -26,4 +26,4 @@ jobs:
             docker build -t $IMAGE_NAME:$TAG .
             docker tag $IMAGE_NAME:$TAG brucewong21/$IMAGE_NAME:$TAG
             docker push brucewong21/$IMAGE_NAME:$TAG
-            ssh -o StrictHostKeyChecking=no ec2-user@ec2-3-83-99-75.compute-1.amazonaws.com "/bin/bash ./deploy_app.sh brucewong21/celeste-web-server:latest"
+            ssh -o StrictHostKeyChecking=no ec2-user@ec2-3-84-145-40.compute-1.amazonaws.com "/bin/bash ./deploy_app.sh brucewong21/celeste-web-server:latest"
