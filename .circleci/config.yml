@@ -13,6 +13,7 @@ jobs:
             echo 'export TAG=latest' >> $BASH_ENV
             echo 'export IMAGE_NAME=celeste-web-server' >> $BASH_ENV 
             echo 'export DOCKER_NAME=brucewong21' >> $BASH_ENV
+            echo 'export PORT_TO_CONTAINER_MAP=80:8080' >> $BASH_ENV
       - run:
           name: Run Tests
           command: |
@@ -26,4 +27,4 @@ jobs:
             docker build -t $IMAGE_NAME:$TAG .
             docker tag $IMAGE_NAME:$TAG brucewong21/$IMAGE_NAME:$TAG
             docker push brucewong21/$IMAGE_NAME:$TAG
-            ssh -o StrictHostKeyChecking=no ec2-user@ec2-3-84-145-40.compute-1.amazonaws.com "/bin/bash ./deploy_app.sh brucewong21/celeste-web-server:latest $IMAGE_NAME"
+            ssh -o StrictHostKeyChecking=no ec2-user@ec2-3-84-145-40.compute-1.amazonaws.com "/bin/bash ./deploy_app.sh brucewong21/celeste-web-server:latest $IMAGE_NAME $PORT_TO_CONTAINER_MAP"
