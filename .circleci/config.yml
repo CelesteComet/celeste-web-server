@@ -6,7 +6,9 @@ jobs:
     working_directory: ~/go/src/github.com/CelesteComet/celeste-web-server
     steps:
       - checkout
-      - add_ssh_keys
+      - add_ssh_keys:
+          fingerprints:
+            - "f5:93:91:c1:eb:be:f0:62:8f:71:7a:7c:4e:ed:b0:4c"
       - run:
           name: Setup Environment
           command: |
