@@ -20,7 +20,7 @@ jobs:
       - run:
           name: Fetch Dependencies
           command: |
-            go get
+            go get github.com/lib/pq
       - run:
           name: Run Tests
           command: |
