@@ -18,6 +18,10 @@ jobs:
             echo 'export DOCKER_NAME=brucewong21' >> $BASH_ENV
             echo 'export PORT_TO_CONTAINER_MAP=80:8080' >> $BASH_ENV
       - run:
+          name: Fetch Dependencies
+          command: |
+            go get
+      - run:
           name: Run Tests
           command: |
             go test
