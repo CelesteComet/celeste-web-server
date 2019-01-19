@@ -4,13 +4,33 @@ import (
 	"net/http"
 	"fmt"
 	"log"
+	"encoding/json"
 	"database/sql"
   _ "github.com/lib/pq"
+	"os"
 )
 
 // Declare the database
-const (
-	connStr = "postgres://cwyfcaka:SBkAFLqMd4G27FYAFhoPy9yYfdfCfWMK@elmer.db.elephantsql.com:5432/cwyfcaka"
+var (
+	host = "celestecomet.c7bjz8zer8ha.us-east-1.rds.amazonaws.com"
+	port = 5432
+	user = os.Getenv("AWS_DB_USERNAME")
+	password = os.Getenv("AWS_DB_PASSWORD")
+	dbname = "CelesteComet"
+)
+
+type Bag struct {
+	Id int
+	Name string
+	Brand string
+	Image_url string
+}
+
+type Bags []Bag
+
+
+var (
+  connStr = fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", host, port, user, password, dbname)
 )
 
 func SayHello() string  {
@@ -18,6 +38,7 @@ func SayHello() string  {
 }
 
 func main() {
+  fmt.Println(os.Environ())
 	mux := http.NewServeMux()
 	files := http.FileServer(http.Dir("publc/"))
 	index := http.FileServer(http.Dir("client/dist/"))
@@ -30,23 +51,28 @@ func main() {
 		log.Fatal(err)
 	}
 
-	rows, err := db.Query("select * from person")
+	rows, err := db.Query("select * from bag")
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer rows.Close()
 
-	names := make([]string, 0)
+	bags := Bags{}
 	for rows.Next() {
-		var name string
-		if err := rows.Scan(&name); err != nil {
+		bag := Bag{}
+		if err := rows.Scan(&bag.Id, &bag.Name, &bag.Brand, &bag.Image_url); err != nil {
 			log.Fatal(err)
 		} 
-		names = append(names, name)
+		bags = append(bags, bag)
+		fmt.Println("DOING")
 	}
 
-	fmt.Println(names)
+	bagsJson, err := json.Marshal(bags)
+	if err != nil {
+		log.Fatal(err)
+	}
 
+	fmt.Fprintf(os.Stdout, "%s", bagsJson)
 
 	server := &http.Server{
 		Addr:			"0.0.0.0:8080",
