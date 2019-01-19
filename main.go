@@ -75,9 +75,11 @@ func main() {
 	fmt.Fprintf(os.Stdout, "%s", bagsJson)
 
 	server := &http.Server{
-		Addr:			"0.0.0.0:8080",
+		Addr:			"0.0.0.0:3000",
 		Handler: 	mux,
 	}
+
+	fmt.Println("Server is now listening on port 3000")
 
 	server.ListenAndServe()
 }
