@@ -41,10 +41,14 @@ func SayHello() string  {
 func main() {
 	router := mux.NewRouter()
 
-	// Route Handler for Static Files
-	files := http.FileServer(http.Dir("./static"))
-	// Files will be served from /static/*
-	router.PathPrefix("/static/").Handler(http.StripPrefix("/static/", files))
+	// Route Handler for Public Files
+	files := http.FileServer(http.Dir("./public"))
+	// Files will be served from /public/*
+	router.PathPrefix("/public/").Handler(http.StripPrefix("/public/", files))
+
+	// Router handler for static files
+	router.PathPrefix("/").Handler(http.FileServer(http.Dir("./client/dist")))
+
 
   // Serve index page through frontend for all unhandled routes
   router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
