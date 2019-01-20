@@ -8,6 +8,7 @@ import (
 	"database/sql"
   _ "github.com/lib/pq"
 	"os"
+	"github.com/gorilla/mux"
 )
 
 // Declare the database
@@ -38,13 +39,13 @@ func SayHello() string  {
 }
 
 func main() {
-  fmt.Println(os.Environ())
-	mux := http.NewServeMux()
-	files := http.FileServer(http.Dir("publc/"))
+	r := mux.NewRouter()
+	files := http.FileServer(http.Dir("public/"))
 	index := http.FileServer(http.Dir("client/dist/"))
 
-	mux.Handle("/static/", http.StripPrefix("/static/", files))
-	mux.Handle("/", index)
+	// This will serve files under http://localhost:8080/static/<filename>
+	r.PathPrefix("/static/").Handler(http.StripPrefix("/static/", files))
+	r.Handle("/", index)
 
 	db, err := sql.Open("postgres", connStr)
 	if err != nil {
@@ -76,12 +77,10 @@ func main() {
 
 	server := &http.Server{
 		Addr:			"0.0.0.0:8080",
-		Handler: 	mux,
+		Handler: 	r,
 	}
 
-	fmt.Println("Server is now listening on port 8080")
-
-	server.ListenAndServe()
+	log.Fatal(server.ListenAndServe())
 }
 
 
