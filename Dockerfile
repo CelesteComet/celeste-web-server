@@ -9,12 +9,12 @@ WORKDIR /go/src/github.com/CelesteComet/celeste-web-server
 # Fetch Dependencies
 RUN go get 
 
-# Build Binary
-RUN go build .
+# Build Binary to /go/bin directory
+RUN go install
 
 # Run server when container is run
 
-CMD ./celeste-web-server
+CMD /go/bin/celeste-web-server
 
 # Expose port 8080 of container
 

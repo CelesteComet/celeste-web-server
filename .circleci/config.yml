@@ -37,4 +37,8 @@ jobs:
             docker tag $IMAGE_NAME:$TAG brucewong21/$IMAGE_NAME:$TAG
             docker push brucewong21/$IMAGE_NAME:$TAG
             echo 'Docker image pushed to Docker Hub'
-            ssh -o StrictHostKeyChecking=no ec2-user@ec2-3-82-107-155.compute-1.amazonaws.com "/bin/bash ./deploy_app.sh brucewong21/celeste-web-server:latest $IMAGE_NAME $PORT_TO_CONTAINER_MAP"
+      - run:
+          name: SSH to AWS and run deploy.sh
+          command: |
+            ssh -o StrictHostKeyChecking=no ec2-user@ec2-3-82-107-155.compute-1.amazonaws.com "/bin/bash ./deploy_app.sh $DOCKER_NAME/$IMAGE_NAME:$TAG $IMAGE_NAME $PORT_TO_CONTAINER_MAP"
+            echo 'Docker deploy script started'
