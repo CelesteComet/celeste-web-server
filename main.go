@@ -4,11 +4,11 @@ import (
 	"net/http"
 	"fmt"
 	"log"
-	"encoding/json"
 	"database/sql"
   _ "github.com/lib/pq"
 	"os"
 	"github.com/gorilla/mux"
+	"github.com/gorilla/handlers"
 )
 
 // Declare the database
@@ -39,14 +39,17 @@ func SayHello() string  {
 }
 
 func main() {
-	r := mux.NewRouter()
-	files := http.FileServer(http.Dir("public/"))
-	index := http.FileServer(http.Dir("client/dist/"))
+	router := mux.NewRouter()
 
-	// This will serve index under http://localhost:8080/
-	r.PathPrefix("/").Handler(index)
-	// This will serve files under http://localhost:8080/static/<filename>
-	r.PathPrefix("/static/").Handler(files)
+	// Route Handler for Static Files
+	files := http.FileServer(http.Dir("./static"))
+	// Files will be served from /static/*
+	router.PathPrefix("/static/").Handler(http.StripPrefix("/static/", files))
+
+  // Serve index page through frontend for all unhandled routes
+  router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "./client/dist/index.html")
+	})
 
 	db, err := sql.Open("postgres", connStr)
 	if err != nil {
@@ -66,19 +69,20 @@ func main() {
 			log.Fatal(err)
 		} 
 		bags = append(bags, bag)
-		fmt.Println("DOING")
 	}
 
-	bagsJson, err := json.Marshal(bags)
+	//bagsJson, err := json.Marshal(bags)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	fmt.Fprintf(os.Stdout, "%s", bagsJson)
+	//fmt.Fprintf(os.Stdout, "%s", bagsJson)
+
+	loggedRouter := handlers.LoggingHandler(os.Stdout, router)
 
 	server := &http.Server{
 		Addr:			"0.0.0.0:8080",
-		Handler: 	r,
+		Handler: 	loggedRouter,
 	}
 
 	log.Fatal(server.ListenAndServe())
