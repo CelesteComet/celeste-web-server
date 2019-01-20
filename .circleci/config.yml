@@ -16,7 +16,7 @@ jobs:
             echo 'export TAG=latest' >> $BASH_ENV
             echo 'export IMAGE_NAME=celeste-web-server' >> $BASH_ENV 
             echo 'export DOCKER_NAME=brucewong21' >> $BASH_ENV
-            echo 'export PORT_TO_CONTAINER_MAP=8080:80' >> $BASH_ENV
+            echo 'export PORT_TO_CONTAINER_MAP=80:8080' >> $BASH_ENV
             echo 'export AWS_DB_USERNAME=$AWS_DB_USERNAME' >> $BASH_ENV
             echo 'export AWS_DB_PASSWORD=$AWS_DB_PASSWORD' >> $BASH_ENV
       - run:
