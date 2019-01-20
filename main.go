@@ -43,9 +43,10 @@ func main() {
 	files := http.FileServer(http.Dir("public/"))
 	index := http.FileServer(http.Dir("client/dist/"))
 
+	// This will serve index under http://localhost:8080/
+	r.PathPrefix("/").Handler(index)
 	// This will serve files under http://localhost:8080/static/<filename>
-	r.PathPrefix("/static/").Handler(http.StripPrefix("/static/", files))
-	r.Handler("/", index)
+	r.PathPrefix("/static/").Handler(files)
 
 	db, err := sql.Open("postgres", connStr)
 	if err != nil {
