@@ -45,7 +45,7 @@ func main() {
 
 	// This will serve files under http://localhost:8080/static/<filename>
 	r.PathPrefix("/static/").Handler(http.StripPrefix("/static/", files))
-	r.Handle("/", index)
+	r.Handler("/", index)
 
 	db, err := sql.Open("postgres", connStr)
 	if err != nil {
