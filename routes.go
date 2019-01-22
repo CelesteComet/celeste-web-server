@@ -21,5 +21,5 @@ func (s *CelesteWebServer) routes() {
 	s.router.HandleFunc("/", indexHandler)
 	//s.router.HandleFunc("/api/bag", handleBag)
   s.router.PathPrefix("/public/").Handler(http.StripPrefix("/public/",serverFileHandler))
-	s.router.PathPrefix("/").Handler(clientFileHandler)
+	//s.router.PathPrefix("/").Handler(clientFileHandler)
 }
