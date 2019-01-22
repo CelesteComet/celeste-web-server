@@ -9,8 +9,6 @@ import (
 	"os"
 	"github.com/gorilla/mux"
 	"github.com/gorilla/handlers"
-  "github.com/CelesteComet/celeste-web-server/app/postgres"
-  mHttp "github.com/CelesteComet/celeste-web-server/app/http"
 )
 
 // Declare the database
@@ -30,29 +28,31 @@ func SayHello() string  {
 	return "HELLO"
 }
 
+type CelesteWebServer struct {
+  database *sql.DB
+	router *mux.Router
+}
+
 func main() {
 	router := mux.NewRouter()
 
-
-	// Route Handler for Public Files
-	fileHandler := http.FileServer(http.Dir("./public"))
-	// Files will be served from /public/*
-	router.PathPrefix("/public/").Handler(http.StripPrefix("/public/", fileHandler))
-
-	// Router handler for static files
-	router.PathPrefix("/").Handler(http.FileServer(http.Dir("./client/dist")))
-
-  // Serve index page through frontend for all unhandled routes
-  router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		http.ServeFile(w, r, "./client/dist/index.html")
-	})
-
-	// Connect to database.
+  log.Println("Connecting to AWS RDS Postgresql server")
 	db, err := sql.Open("postgres", connStr)
 	if err != nil {
 		log.Fatal(err)
 	}
+	log.Println("Server connection successful")
 	defer db.Close()
+
+	server := &CelesteWebServer{
+	  database: db,
+		router: router,
+	}
+
+
+  // Initialize Routes
+	server.routes()
+
 
 	bagService := postgres.BagService{DB: db}
 	bags, err := bagService.Bags()
@@ -67,18 +67,6 @@ func main() {
 	  fmt.Println(err)
 	}
 
-	fmt.Println(bag)
-
-
-
-	loggedRouter := handlers.LoggingHandler(os.Stdout, router)
-
-	server := &http.Server{
-		Addr:			"0.0.0.0:8080",
-		Handler: 	loggedRouter,
-	}
-
-	log.Fatal(server.ListenAndServe())
+  loggedRouter := handlers.LoggingHandler(os.Stdout, server.router)
+  http.ListenAndServe(":8080", loggedRouter) 
 }
-
-

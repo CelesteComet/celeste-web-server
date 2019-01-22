@@ -1,9 +1,5 @@
 package app
 
-import (
-	"net/http"
-)
-
 type Bag struct {
 	Id int
 	Name string
@@ -17,6 +13,6 @@ type BagService interface {
 }
 
 type BagHTTPService interface {
-	Index() (indexHandler)
-	Show(id int) (showHandler)
+  Index() ([]*Bag, error)
+	Show(id int) (*Bag, error)
 }
