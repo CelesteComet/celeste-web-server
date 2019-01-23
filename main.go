@@ -3,14 +3,11 @@ package main
 import (
 	"database/sql"
 	"fmt"
-	"github.com/gorilla/handlers"
+	"github.com/CelesteComet/celeste-web-server/http"
 	"github.com/gorilla/mux"
 	_ "github.com/lib/pq"
 	"log"
-	"net/http"
 	"os"
-  "github.com/CelesteComet/celeste-web-server/app/http"
-  "github.com/CelesteComet/celeste-web-server/app/postgres"
 )
 
 // Declare the database
@@ -30,7 +27,7 @@ func SayHello() string {
 	return "HELLO"
 }
 
-type CelesteWebServer struct {
+type Server struct {
 	database *sql.DB
 	router   *mux.Router
 }
@@ -46,33 +43,11 @@ func main() {
 	log.Println("Server connection successful")
 	defer db.Close()
 
-	server := &CelesteWebServer{
-		database: db,
-		router:   router,
-	}
+	//bagService := &postgres.BagService{DB: db}
 
 	// Initialize Routes
-	server.routes()
-  bagService := postgres.BagService{DB: db}
-	bagHTTPService := mhttp.BagHTTPService{BagService: bagService}
-	server.router.HandleFunc("/bag/", bagHTTPService.Index()).Methods("GET")
-
-	/*
-	bagservice := postgres.bagservice{db: db}
-	bags, err := bagService.Bags()
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	fmt.Println(bags)
-
-	bag, err := bagService.Bag(2)
-	if err != nil {
-		fmt.Println(err)
-	}
-	*/
-  
-
-	loggedRouter := handlers.LoggingHandler(os.Stdout, server.router)
-	http.ListenAndServe(":8080", loggedRouter)
+	routes := http.Routes{Tier: router}
+	routes.Init()
+	//loggedRouter := handlers.LoggingHandler(os.Stdout, routes.Tier)
+	routes.Listen()
 }
