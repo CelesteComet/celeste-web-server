@@ -17,13 +17,13 @@ var indexHandler = func(w http.ResponseWriter, r *http.Request) {
 }
 
 type Routes struct {
-	Tier *mux.Router
+	Router *mux.Router
 }
 
 func (r *Routes) Init() {
-	r.Tier.PathPrefix("/public/").Handler(http.StripPrefix("/public/", serverFileHandler))
+	r.Router.PathPrefix("/public/").Handler(http.StripPrefix("/public/", serverFileHandler))
 }
 
 func (r *Routes) Listen() {
-	http.ListenAndServe(":8080", r.Tier)
+	http.ListenAndServe(":8080", r.Router)
 }

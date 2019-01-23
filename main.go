@@ -46,7 +46,7 @@ func main() {
 	//bagService := &postgres.BagService{DB: db}
 
 	// Initialize Routes
-	routes := http.Routes{Tier: router}
+	routes := http.Routes{Router: router}
 	routes.Init()
 	//loggedRouter := handlers.LoggingHandler(os.Stdout, routes.Tier)
 	routes.Listen()
