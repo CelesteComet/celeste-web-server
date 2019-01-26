@@ -1,13 +1,15 @@
 package main
 
 import (
-	"database/sql"
 	"fmt"
-	"github.com/CelesteComet/celeste-web-server/http"
+	"github.com/CelesteComet/celeste-web-server/app"
+	"github.com/CelesteComet/celeste-web-server/routes"
 	"github.com/gorilla/mux"
 	_ "github.com/lib/pq"
 	"log"
+	"net/http"
 	"os"
+	"github.com/jmoiron/sqlx"
 )
 
 // Declare the database
@@ -27,27 +29,24 @@ func SayHello() string {
 	return "HELLO"
 }
 
-type Server struct {
-	database *sql.DB
-	router   *mux.Router
-}
-
 func main() {
-	router := mux.NewRouter()
-
 	log.Println("Connecting to AWS RDS Postgresql server")
-	db, err := sql.Open("postgres", connStr)
+	db, err := sqlx.Open("postgres", connStr)
 	if err != nil {
 		log.Fatal(err)
 	}
 	log.Println("Server connection successful")
 	defer db.Close()
 
-	//bagService := &postgres.BagService{DB: db}
+	// Create a Router
+	router := mux.NewRouter()
 
-	// Initialize Routes
-	routes := http.Routes{Router: router}
-	routes.Init()
-	//loggedRouter := handlers.LoggingHandler(os.Stdout, routes.Tier)
-	routes.Listen()
+	// Create a Server
+	s := &app.Server{Database: db, Router: router, Port: ":8080"}
+
+	// Initialize Server Routes
+	routes.InitRoutes(s)
+
+	// Start the Server
+	http.ListenAndServe(s.Port, s.Router)
 }
