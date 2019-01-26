@@ -28,6 +28,7 @@ jobs:
       - run:
           name: Run Tests
           command: |
+            go get
             go test
       - setup_remote_docker:
           docker_layer_caching: true
