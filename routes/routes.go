@@ -24,11 +24,10 @@ func InitRoutes(s *app.Server) {
 
 	// Attach Handlers to Routes
 	s.Router.PathPrefix("/public/").Handler(auth.MustAuth(serverFilesHandler))
-	s.Router.PathPrefix("/").Handler(staticFilesHandler)
 
 	s.Router.Handle("/bags", bagHandler.GetBags())
 	s.Router.Handle("/bags/{n}", bagHandler.GetBag())
 	s.Router.Handle("/users/{userID}/bags", auth.MustAuth(bagHandler.GetUserBags()))
 	s.Router.Handle("/logout", &auth.LogOutHandler{})
-
+	s.Router.PathPrefix("/").Handler(staticFilesHandler)
 }
