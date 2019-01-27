@@ -25,6 +25,9 @@ jobs:
             go get github.com/lib/pq
             go get github.com/gorilla/mux
             go get github.com/gorilla/handlers
+            go get github.com/jmoiron/sqlx
+            go get github.com/CelesteComet/celeste-web-server/app
+            go get github.com/CelesteComet/celeste-web-server/routes
       - run:
           name: Run Tests
           command: |
