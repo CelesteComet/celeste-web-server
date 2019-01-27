@@ -13,7 +13,7 @@ import (
 func InitRoutes(s *app.Server) {
 
 	// Public files that are stored on server with static files for React client
-	serverFilesHandler := http.FileServer(http.Dir("./public"))
+	serverFilesHandler := http.StripPrefix("/public/", http.FileServer(http.Dir("./public")))
 	staticFilesHandler := http.FileServer(http.Dir("./client/dist"))
 
 	// Create Services
@@ -23,7 +23,7 @@ func InitRoutes(s *app.Server) {
 	bagHandler := mhttp.BagHandler{BagService: bagService}
 
 	// Attach Handlers to Routes
-	s.Router.PathPrefix("/public/").Handler(http.StripPrefix("/public/", serverFilesHandler))
+	s.Router.PathPrefix("/public/").Handler(auth.MustAuth(serverFilesHandler))
 	s.Router.PathPrefix("/").Handler(staticFilesHandler)
 
 	s.Router.Handle("/bags", bagHandler.GetBags())
