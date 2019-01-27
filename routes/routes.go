@@ -4,20 +4,28 @@ import (
 	//"database/sql"
 	"github.com/CelesteComet/celeste-auth-server/pkg/auth"
 	"github.com/CelesteComet/celeste-web-server/app"
-	"github.com/CelesteComet/celeste-web-server/app/http"
+	mhttp "github.com/CelesteComet/celeste-web-server/app/http"
 	"github.com/CelesteComet/celeste-web-server/app/postgres"
 	_ "github.com/lib/pq"
+	"net/http"
 )
 
 func InitRoutes(s *app.Server) {
+
+	// Public files that are stored on server with static files for React client
+	serverFilesHandler := http.FileServer(http.Dir("./public"))
+	staticFilesHandler := http.FileServer(http.Dir("./client/dist"))
 
 	// Create Services
 	bagService := postgres.BagService{DB: s.Database}
 
 	// Create Handlers
-	bagHandler := http.BagHandler{BagService: bagService}
+	bagHandler := mhttp.BagHandler{BagService: bagService}
 
 	// Attach Handlers to Routes
+	s.Router.PathPrefix("/public/").Handler(http.StripPrefix("/public/", serverFilesHandler))
+	s.Router.PathPrefix("/").Handler(staticFilesHandler)
+
 	s.Router.Handle("/bags", bagHandler.GetBags())
 	s.Router.Handle("/bags/{n}", bagHandler.GetBag())
 	s.Router.Handle("/users/{userID}/bags", auth.MustAuth(bagHandler.GetUserBags()))
