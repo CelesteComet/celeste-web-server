@@ -8,7 +8,14 @@ module.exports = {
     path: path.resolve(__dirname, 'dist')
   },
 	devServer: {	
-		contentBase: './dist'
+		contentBase: './dist',
+    historyApiFallback: true,// Fall back to index.html in case file in server can't be found
+    proxy: {
+      '/api': {
+        target: 'http://localhost:8080',
+        secure: false
+      }
+    }    
 	},
 	module: {
 		rules: [ 

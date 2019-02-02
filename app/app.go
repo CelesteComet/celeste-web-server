@@ -30,11 +30,11 @@ type UserHandler interface {
 }
 
 type Bag struct {
-	Id         int
-	Name       string
-	Brand      string
-	Image_url  string
-	Created_by int
+	Id         int `json:"id"`
+	Name       string `json:"name"`
+	Brand      string `json:"brand"`
+	Image_url  string `json:"image_url"`
+	Created_by int `json:"created_by"`
 }
 
 type BagService interface {

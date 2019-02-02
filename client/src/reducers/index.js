@@ -1,5 +1,9 @@
-function rootReducer(state = {}, action) {
-  return state;
-}
+import bagsReducer from './bagsReducer';
 
-export default rootReducer;
+import { combineReducers } from 'redux'
+
+export default combineReducers({
+  bags: bagsReducer
+})
+
+
