@@ -4,6 +4,7 @@ import { HashRouter as Router, Route, Link, Switch } from "react-router-dom";
 import LoginForm from './LoginForm';
 import NotFound from './NotFound';
 import BagsIndexPage from './BagsIndexPage';
+import Header from './Header';
 
 class App extends Component {
   constructor(props) {
@@ -13,12 +14,15 @@ class App extends Component {
   render() {
     return (
       <Router>
-        <Switch>
-          <Route path="/" exact component={ Home } />
-          <Route path="/bags" component={ BagsIndexPage } />
-          {/*<Redirect from="/old-match" to="/will-match" />*/}
-          <Route component={ NotFound } />
-        </Switch>
+        <Fragment>
+          <Header />
+          <Switch>
+            <Route path="/" exact component={ Home } />
+            <Route path="/bags" component={ BagsIndexPage } />
+            {/*<Redirect from="/old-match" to="/will-match" />*/}
+            <Route component={ NotFound } />
+          </Switch>
+        </Fragment>
       </Router>
     );
   }
