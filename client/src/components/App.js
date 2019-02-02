@@ -16,6 +16,7 @@ class App extends Component {
 
   componentDidMount() {
     // check if logged in
+
   }
 
   render() {
@@ -23,6 +24,7 @@ class App extends Component {
       <Router>
         <Fragment>
           <Header />
+          <LoginForm />
           <Switch>
             <Route path="/" exact component={ Home } />
             <Route path="/bags" component={ BagsIndexPage } />

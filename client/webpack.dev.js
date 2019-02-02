@@ -11,6 +11,10 @@ module.exports = merge(common, {
       '/api': {
         target: 'http://localhost:8080',
         secure: false
+      },
+      '/auth': {
+        target: 'http://localhost:8080',
+        secure: false
       }
     }    
   }

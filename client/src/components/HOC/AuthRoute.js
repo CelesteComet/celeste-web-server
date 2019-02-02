@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
+import { fetchUser } from '../../actions/userActions';
 
 class AuthRoute extends Component {
 
@@ -8,12 +9,19 @@ class AuthRoute extends Component {
     super(props)
   }
 
+  componentDidMount() {
+    const { dispatch } = this.props;
+    dispatch(fetchUser())
+  }
+
   render() {
     const {path, component} = this.props;
+    const { users } = this.props.state;
+    console.log(users);
 
-    // implement if not logged in
-    
-
+    if (users && !users.email) {
+      return <p>Please Log In</p>
+    }
 
     return (
       <Route path={path} component={component} />
@@ -25,4 +33,8 @@ const mapStateToProps = state => {
   return { state }
 }
 
-export default connect(mapStateToProps, null)(AuthRoute);
+const mapDispatchToProps = dispatch => {
+  return { dispatch }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AuthRoute);

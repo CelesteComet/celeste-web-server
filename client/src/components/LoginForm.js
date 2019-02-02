@@ -13,7 +13,7 @@ class LoginForm extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    let url = "http://ec2-3-82-107-155.compute-1.amazonaws.com:1337/user"
+    let url = "http://localhost:1337/users";
     fetch(url, {
       method: "POST", // *GET, POST, PUT, DELETE, etc.
       mode: "cors",

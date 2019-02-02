@@ -25,13 +25,16 @@ func InitRoutes(s *app.Server) {
 	// Attach Handlers to Routes
 	s.Router.PathPrefix("/public/").Handler(auth.MustAuth(serverFilesHandler))
 
+	// Authentication Routes
+	s.Router.Handle("/auth", &auth.CheckLoggedInHandler{})
+	s.Router.Handle("/logout", &auth.LogOutHandler{})
+
+	// API Routes
 	s.Router.Handle("/api/bags", bagHandler.GetBags())
 	s.Router.Handle("/api/bags/{n}", bagHandler.GetBag())
 	s.Router.Handle("/api/bagtags", bagHandler.GetBagWithTag())
 	s.Router.Handle("/api/users/{userID}/bags", auth.MustAuth(bagHandler.GetUserBags()))
 
-
-
-	s.Router.Handle("/logout", &auth.LogOutHandler{})
+	// React Application
 	s.Router.PathPrefix("/").Handler(staticFilesHandler)
 }
