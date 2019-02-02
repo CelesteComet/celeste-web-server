@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import LogoutLink from './LogoutLink';
 
 //import styles from '../scss/header.module.scss';
 
-function Header() {
+function Header({state}) {
+  const { user } = state;
   return (
     <header>
       <nav>
@@ -12,7 +14,8 @@ function Header() {
           <li><Link to="/">Pursey</Link></li>
           <li><Link to="/bags">Bags</Link></li>
           <li><Link to="/bags">Add Bag</Link></li>
-          <li>Login</li>
+          { user ? <li><LogoutLink /></li> : null }
+          { user ? <li>{user.email}</li> : <li>Login</li>}
         </ul>
       </nav>
     </header>

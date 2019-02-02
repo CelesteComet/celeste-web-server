@@ -5,7 +5,7 @@ import { combineReducers } from 'redux'
 
 export default combineReducers({
   bags: bagsReducer,
-  users: usersReducer
+  user: usersReducer
 })
 
 

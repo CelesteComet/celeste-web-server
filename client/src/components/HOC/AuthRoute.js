@@ -16,12 +16,9 @@ class AuthRoute extends Component {
 
   render() {
     const {path, component} = this.props;
-    const { users } = this.props.state;
-    console.log(users);
+    const { user } = this.props.state;
 
-    if (users && !users.email) {
-      return <p>Please Log In</p>
-    }
+    if (!user) { return <p>PLEASE LOGIN</p>; }
 
     return (
       <Route path={path} component={component} />

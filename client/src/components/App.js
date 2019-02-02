@@ -2,6 +2,8 @@ import React, { Component, Fragment } from 'react';
 import styles from '../scss/reset.scss';
 import Home from './Home';
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
+import { connect } from 'react-redux';
+import { fetchUser } from '../actions/userActions';
 
 import LoginForm from './LoginForm';
 import NotFound from './NotFound';
@@ -15,8 +17,8 @@ class App extends Component {
   }
 
   componentDidMount() {
-    // check if logged in
-
+    const { dispatch } = this.props;
+    dispatch(fetchUser())    
   }
 
   render() {
@@ -38,4 +40,14 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = state => {
+  return { state }
+}
+
+const mapDispatchToProps = dispatch => {
+  return { dispatch }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
+
+

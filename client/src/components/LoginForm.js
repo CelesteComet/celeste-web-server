@@ -9,11 +9,13 @@ class LoginForm extends React.Component {
     }
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleOnChange = this.handleOnChange.bind(this);
+    this.handleLogout = this.handleLogout.bind(this);
   }
 
   handleSubmit(e) {
     e.preventDefault();
-    let url = "http://localhost:1337/users";
+    console.log(process.env.AUTH_URL);
+    let url = process.env.AUTH_URL + "/users";
     fetch(url, {
       method: "POST", // *GET, POST, PUT, DELETE, etc.
       mode: "cors",
@@ -31,6 +33,10 @@ class LoginForm extends React.Component {
     this.setState({
       [e.target.name]: e.target.value
     })
+  }
+
+  handleLogout() {
+
   }
 
   render() {
