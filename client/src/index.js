@@ -10,6 +10,9 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import rootReducer from './reducers'
 import App from './components/App'
 
+// Import Font
+import styles from './scss/main';
+
 let store;
 if (process.env.NODE_ENV === 'development') {
   store = createStore(rootReducer, composeWithDevTools(

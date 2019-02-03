@@ -28,15 +28,18 @@
     "babel-plugin-react-css-modules": "^5.0.0",
     "node-sass": "^4.11.0",
     "react": "^16.7.0",
+    "react-addons-css-transition-group": "^15.6.2",
     "react-dom": "^16.7.0",
     "react-redux": "^6.0.0",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
+    "react-spring": "^7.2.10",
     "redux": "^4.0.1",
     "redux-devtools-extension": "^2.13.7",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
     "sass-loader": "^7.1.0",
+    "use-media": "^0.1.1",
     "webpack-merge": "^4.2.1"
   }
 }

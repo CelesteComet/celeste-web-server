@@ -7,12 +7,6 @@ module.exports = {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist')
   },
-  plugins: [
-    new webpack.EnvironmentPlugin({
-      NODE_ENV: 'development', // use 'development' unless process.env.NODE_ENV is defined
-      AUTH_URL: 'http://localhost:1337'
-    })
-  ],  
 	module: {
 		rules: [ 
 			{ test: /\.js$/, exclude: /node_modules/, loader: "babel-loader" },
@@ -31,10 +25,14 @@ module.exports = {
             }
           },          
           "sass-loader"   // compiles Sass to CSS, using Node Sass by default
-        ]
-      }      
+        ],
+      }
 		]
-	}
+	},
+  resolve: {
+    // you can now require('file') instead of require('file.coffee')
+    extensions: ['.js', '.json', '.scss'] 
+  }  
 }
 
 
