@@ -1,13 +1,10 @@
 import { 
-  CLOSE_LOGIN_FORM,
   OPEN_LOGIN_FORM,
-  START_CLOSE_ANIMATION,
-  END_CLOSE_ANIMATION
-} 
-from '../actions/uiActions'
+  CLOSE_LOGIN_FORM
+} from '../actions/uiActions'
 
 const initialState = {
-  vLoginForm: true 
+  vLoginForm: false 
 };
 
 const uiReducer = (state = initialState, action) => {
@@ -25,3 +22,4 @@ const uiReducer = (state = initialState, action) => {
 }
 
 export default uiReducer;
+

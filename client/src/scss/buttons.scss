@@ -1,4 +1,41 @@
-:local .submit {
-  background: red;
+/* BUTTON MIXINS */
+@import 'variables';
+
+@mixin button-base($bg, $fg) {
+  background: $bg;
+  font-size: $font-size-buttons;
+  border: none;
+  color: $fg;
+  cursor: pointer;
   border-radius: 20px;
+  background-image: linear-gradient(to right, darken($bg, 15%), darken($fg, 15%));
+
+  &:hover {
+    background-image: linear-gradient(to right, darken($bg, 8%), darken($fg, 8%));
+    transition: all 0.3s ease;
+  }
+
+  &:active {
+    background-image: linear-gradient(to right, darken($bg, 25%), darken($fg, 25%));
+  }   
+}
+
+@mixin account-buttons($bg, $fg) {
+  @include button-base($bg, $fg);
+  text-transform: uppercase;
+  letter-spacing: 5px;
+}
+
+/* BUTTON CSS MODULES */
+
+:local .submit {
+  @include button-base(theme-color(), theme-color('primary', 'light'));
+};
+
+:local .button {
+  @include button-base(theme-color(), theme-color('primary', 'light'));
+};
+
+:local .account {
+  @include account-buttons(theme-color(), theme-color('primary', 'light'));
 };

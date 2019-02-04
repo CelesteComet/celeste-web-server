@@ -30,8 +30,6 @@ class LoginForm extends React.Component {
   handleSubmit(e) {
     e.preventDefault();
     const { dispatch } = this.props;
-    const user = this.state;
-    console.log(user);
     dispatch(loginUser(user))
   }
 
@@ -68,11 +66,10 @@ class LoginForm extends React.Component {
           <form className={styles['login-form']} onSubmit={this.handleSubmit}> 
             <img src=""></img>
             <a className={styles['close-button']} href="#" onClick={this.handleClose}>CLOSE</a>
-            <label htmlFor='email'>EMAIL</label>
-            <input ref={this.bindRefs} type='email' name='email' onChange={this.handleOnChange} />
-            <label htmlFor='password'>PASSWORD</label>
-              <input type='password' name='password' onChange={this.handleOnChange} />
-            <input className={buttonStyles.submit} type='submit' value='submit' /> 
+            <input ref={this.bindRefs} type='email' name='email' placeholder="EMAIL" onChange={this.handleOnChange} />
+            <input type='password' name='password' placeholder="PASSWORD" onChange={this.handleOnChange} />
+            <a href="#">forgot your password?</a>
+            <input className={buttonStyles.account} type='submit' value='login' /> 
           </form>          
         }
         </ReactCSSTransitionGroup>

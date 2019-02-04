@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { closeModal } from './uiActions';
+import { closeLoginForm } from './uiActions';
 
 export const FETCH_USER         = 'FETCH_USER';
 export const RECEIVE_USER       = 'RECEIVE_USER';
@@ -28,7 +28,7 @@ export const createUser = (user) => {
       .then(res => {
         document.cookie = `JWT=${res.headers['jwt']}`;
         dispatch(fetchUser());
-        dispatch(closeModal());
+        dispatch(closeLoginForm());
       })
       .catch(err => {
         console.log(err); 
@@ -43,7 +43,7 @@ export const loginUser = (user) => {
       .then(res => {
         document.cookie = `JWT=${res.headers['jwt']}`;
         dispatch(fetchUser());   
-        dispatch(closeModal());     
+        dispatch(closeLoginForm());     
       })
       .catch(err => {
         console.log(err);

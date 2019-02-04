@@ -1,9 +1,9 @@
 @import 'mixins';
-
-
+@import 'variables';
 
 :local .login-form {
-  background: white;
+  background: theme-color('background', 'dark');
+  font-size: $font-size-md;
   height: 100vh;
   width: 100%;
   padding: 40px;
@@ -31,6 +31,7 @@
   label, input {
     display: block;
     width: 100%;
+    font-size:inherit;
   }
 
   :local .close-button {
@@ -38,6 +39,11 @@
     right: 0;
     top: 0;
   }
+
+  & a {
+    padding-bottom: 10px;
+    display: block;
+  };
 }
 
 
