@@ -1,3 +1,6 @@
+$header-height: 48px;
+$gutter-width: 10px;
+
 /* COLORS */
 
 $theme-colors: (
@@ -7,7 +10,7 @@ $theme-colors: (
     'dark': #273677
   ),
   'accent': (
-    'base': #f08110,
+    'base': #D9B310,
     'light': #ff8100,
     'dark': #e47f17
   ),
@@ -17,7 +20,7 @@ $theme-colors: (
     'dark': #111
   ),
   'background': (
-    'base': #f8f5f5,
+    'base': #0B3C5D,
     'light': #fff,
     'dark': #ddd
   )
@@ -27,15 +30,6 @@ $theme-colors: (
   $map: map-get($theme-colors, $key);
   @return map-get($map, $variant);
 }
-
-/*
-@mixin theme-elegant() {
-  $lighter: #D9B310;
-  $light: #328CC1;
-  $darker: #1D2731;
-  $dark: #0B3C5D;
-}
-*/
 
 /* TYPOGRAPHY */
 $font-size-sm: 0.9rem;

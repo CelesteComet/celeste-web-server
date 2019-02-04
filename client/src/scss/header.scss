@@ -1,0 +1,35 @@
+@import 'variables';
+@import 'mixins';
+
+:local .header {
+  height: $header-height;
+  background-color: theme-color('background', 'base');
+  position: fixed;
+  width: 100%;
+  z-index: 3;
+
+  nav {
+    padding-top: 8px;
+    padding-bottom: 8px;    
+    display: none;
+
+    span {
+      position: relative;
+      font-size: 2.0rem;
+      left: $gutter-width;
+    }
+
+    @include for-tablet-portrait-up {
+      display: block;
+    }
+  }
+
+  :global .mobile {
+    display: block;
+
+    @include for-tablet-portrait-up {
+      display: none;
+    }
+  }
+}
+

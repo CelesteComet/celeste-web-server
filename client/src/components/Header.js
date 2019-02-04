@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import LogoutLink from './LogoutLink';
-import { openLoginForm } from '../actions/uiActions';
+import { openLoginForm, toggleSideBarNav } from '../actions/uiActions';
 
-//import styles from '../scss/header.module.scss';
+import styles from '../scss/header.scss';
 
 function Header({state, dispatch}) {
   const { user } = state;
   return (
-    <header>
+    <header className={styles.header}>
       <nav>
         <ul>
           <li><Link to="/">Pursey</Link></li>
@@ -17,6 +17,19 @@ function Header({state, dispatch}) {
           <li><Link to="/bags">Add Bag</Link></li>
           { user ? <li><LogoutLink /></li> : null }
           { user ? <li>{user.email}</li> : <li onClick={() => {dispatch(openLoginForm()) }}>Login</li>}
+        </ul>
+      </nav>
+      {/* MOBILE NAV */}
+      <nav className="mobile">
+        <ul>
+          <li>
+            <Link to="/">
+              <span 
+                className="icon-menu"
+                onClick={(e) => { e.preventDefault(); dispatch(toggleSideBarNav()) }}>
+              </span>
+            </Link>
+          </li>
         </ul>
       </nav>
     </header>

@@ -8,7 +8,7 @@
   width: 100%;
   padding: 40px;
   top: 0;
-  z-index: 2;
+  z-index: 4;
   position: fixed;
   top: 50%;
   left: 50%;
@@ -36,13 +36,14 @@
 
   :local .close-button {
     position: absolute;
-    right: 0;
-    top: 0;
+    right: 10px;
+    top: 10px;
+    display: block;
   }
 
   & a {
+    display: inline-block;
     padding-bottom: 10px;
-    display: block;
   };
 }
 

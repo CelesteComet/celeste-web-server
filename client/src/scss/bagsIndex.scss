@@ -1,0 +1,16 @@
+@import 'variables';
+@import 'mixins';
+
+:local .bagsIndex {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: $gutter-width;
+  padding: $gutter-width;
+  text-align: center;
+
+  div {
+    img {
+      width: 100%;
+    }
+  }
+}

@@ -3,6 +3,8 @@ import { fetchBags } from '../actions';
 import { connect } from 'react-redux';
 import BagsIndexPageItem from './BagsIndexPageItem';
 
+import styles from '../scss/bagsIndex.scss';
+
 class BagsIndexPage extends Component {
 
   constructor(props) {
@@ -23,7 +25,7 @@ class BagsIndexPage extends Component {
     }
 
     return (
-      <div>
+      <div className={styles.bagsIndex}>
         {bags.map((bag, i) => {
           return <BagsIndexPageItem key={i} bag={bag} />
         })}

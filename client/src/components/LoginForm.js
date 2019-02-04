@@ -1,7 +1,7 @@
 import React from 'react';
+import ReactDOM from 'react-dom'; // you used 'react-dom' as 'ReactDOM'
 import { connect } from 'react-redux';
-import { createUser, loginUser } from '../actions/userActions';
-import { closeLoginForm } from '../actions/uiActions';
+
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'; 
 
 import styles from '../scss/loginForm';
@@ -15,22 +15,13 @@ class LoginForm extends React.Component {
       password: ""
     }
     this.bindRefs = this.bindRefs.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
     this.handleOnChange = this.handleOnChange.bind(this);
-    this.handleLogout = this.handleLogout.bind(this);
-    this.handleClose = this.handleClose.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevProps.state.ui.vLoginForm !== this.props.state.ui.vLoginForm) {
-      this.emailInput.focus();
-    }
-  }
-
-  handleSubmit(e) {
-    e.preventDefault();
-    const { dispatch } = this.props;
-    dispatch(loginUser(user))
+    // if (prevProps.state.ui.vLoginForm !== this.props.state.ui.vLoginForm) {
+    //   this.emailInput.focus();
+    // }
   }
 
   handleOnChange(e) {
@@ -39,58 +30,31 @@ class LoginForm extends React.Component {
     })
   }
 
-  handleLogout() {
-    const { dispatch } = this.props;
-  }
-
-  handleClose(e) {
-    e.preventDefault();
-    const { dispatch } = this.props;
-    dispatch(closeLoginForm());
-  }
-
   bindRefs(input) {
     this.emailInput = input;
   }
 
   render() {
-    const { ui } = this.props.state;
-
+    const user = this.state;
     return (
-      <div>
-        <ReactCSSTransitionGroup
-          transitionName="swipe-down"
-          transitionEnterTimeout={300}
-          transitionLeaveTimeout={300}>
-        {ui.vLoginForm && 
-          <form className={styles['login-form']} onSubmit={this.handleSubmit}> 
-            <a className={`${styles['close-button']}`} href="#" onClick={this.handleClose}>
-              <span className="icon-cross" />
-            </a>
-            <input ref={this.bindRefs} type='email' name='email' placeholder="EMAIL" onChange={this.handleOnChange} />
-            <input type='password' name='password' placeholder="PASSWORD" onChange={this.handleOnChange} />
-            <a href="#">forgot your password?</a>
-            <input className={buttonStyles.account} type='submit' value='login' /> 
-          </form>          
-        }
-        </ReactCSSTransitionGroup>
-        {ui.vLoginForm && 
-          <div className={styles.backDrop}>BACKDROP</div>
-        }   
-      </div>
+      <form className={styles['login-form']} onSubmit={this.props.handleLogin.bind(null, user)}> 
+        <a className={`${styles['close-button']}`} href="#" onClick={this.props.handleClose}>
+          <span className="icon-cross" />
+        </a>
+        <input ref={this.bindRefs} type='email' name='email' placeholder="EMAIL" onChange={this.handleOnChange} />
+        <input type='password' name='password' placeholder="PASSWORD" onChange={this.handleOnChange} />
+        <a href="#">forgot your password?</a>
+        <input className={buttonStyles.account} type='submit' value='login' /> 
+        {ReactDOM.createPortal(
+          <div className={styles.backDrop}>BACKDROP</div>,
+          document.body
+        )}        
+      </form>          
     );
   }
 }
 
-const mapStateToProps = state => {
-  return { state }
-}
-
-const mapDispatchToProps = dispatch => {
-  return { dispatch}
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);
+export default LoginForm;
 
 
 

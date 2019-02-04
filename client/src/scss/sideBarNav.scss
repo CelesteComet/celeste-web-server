@@ -1,0 +1,53 @@
+@import 'variables';
+@import 'mixins';
+
+:local .sideBarNav {
+  width: 100%;
+  height: 100vh;
+  background: white;
+  position: fixed;
+  z-index: 2;
+  left: 0;
+  padding: 20px;
+  top: $header-height;
+
+  @include for-tablet-portrait-up {
+    display: none;
+  }
+
+  li {
+    display: block;
+
+    a {
+      display: block;
+      padding-top: 12px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid;
+    }
+  }
+}
+
+:global .sidebar-enter {
+  opacity: 0.01;
+  transform: translate(0%, -110%) + translate(0, -443px);
+}
+
+:global .sidebar-enter.sidebar-enter-active {
+  opacity: 1;
+  transition: all 300ms ease-in;
+  transform: translate(0%, 0%); 
+  will-change: transform;
+}
+
+:global .sidebar-leave {
+  opacity: 1;
+  transform: translate(0%, 0%);
+}
+
+:global .sidebar-leave.sidebar-leave-active {
+  opacity: 0.01;
+  transition: all 300ms ease-in;
+  transform: translate(0%, -110%) + translate(0, -443px);
+  will-change: transform;
+}
+
