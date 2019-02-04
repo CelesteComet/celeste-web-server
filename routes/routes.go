@@ -27,7 +27,7 @@ func InitRoutes(s *app.Server) {
 
 	// Authentication Routes
 	s.Router.Handle("/auth", &auth.CheckLoggedInHandler{})
-	s.Router.Handle("/logout", &auth.LogOutHandler{})
+	s.Router.Handle("/auth/logout", &auth.LogOutHandler{})
 
 	// API Routes
 	s.Router.Handle("/api/bags", bagHandler.GetBags())

@@ -64,8 +64,9 @@ class LoginForm extends React.Component {
           transitionLeaveTimeout={300}>
         {ui.vLoginForm && 
           <form className={styles['login-form']} onSubmit={this.handleSubmit}> 
-            <img src=""></img>
-            <a className={styles['close-button']} href="#" onClick={this.handleClose}>CLOSE</a>
+            <a className={`${styles['close-button']}`} href="#" onClick={this.handleClose}>
+              <span className="icon-cross" />
+            </a>
             <input ref={this.bindRefs} type='email' name='email' placeholder="EMAIL" onChange={this.handleOnChange} />
             <input type='password' name='password' placeholder="PASSWORD" onChange={this.handleOnChange} />
             <a href="#">forgot your password?</a>
