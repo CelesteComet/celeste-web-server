@@ -1,7 +1,7 @@
 @import 'variables';
 @import 'mixins';
 
-:local .app {
+.app {
   position: relative;
   top: $header-height;
 };

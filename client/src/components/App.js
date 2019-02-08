@@ -22,6 +22,9 @@ class App extends Component {
 
   componentDidMount() {
     const { dispatch } = this.props;
+setTimeout(function(){
+    document.body.className="";
+},500);    
   }
 
   handleMenuItemClick(e) {

@@ -1,10 +1,10 @@
 @import 'variables';
 @import 'mixins';
 
-:local .sideBarNav {
+.sidebar-nav {
   width: 100%;
   height: 100vh;
-  background: white;
+  background: black;
   position: fixed;
   z-index: 2;
   left: 0;
@@ -27,26 +27,24 @@
   }
 }
 
-:global .sidebar-enter {
-  opacity: 0.01;
+$navSpeed: 600ms;
+
+.sidebar-enter {
   transform: translate(0%, -110%) + translate(0, -443px);
 }
 
-:global .sidebar-enter.sidebar-enter-active {
-  opacity: 1;
-  transition: all 300ms ease-in;
+.sidebar-enter.sidebar-enter-active {
+  transition: all $navSpeed ease-in;
   transform: translate(0%, 0%); 
   will-change: transform;
 }
 
-:global .sidebar-leave {
-  opacity: 1;
+.sidebar-leave {
   transform: translate(0%, 0%);
 }
 
-:global .sidebar-leave.sidebar-leave-active {
-  opacity: 0.01;
-  transition: all 300ms ease-in;
+.sidebar-leave.sidebar-leave-active {
+  transition: all $navSpeed ease-in;
   transform: translate(0%, -110%) + translate(0, -443px);
   will-change: transform;
 }

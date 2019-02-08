@@ -37,16 +37,16 @@ class LoginForm extends React.Component {
   render() {
     const user = this.state;
     return (
-      <form className={styles['login-form']} onSubmit={this.props.handleLogin.bind(null, user)}> 
-        <a className={`${styles['close-button']}`} href="#" onClick={this.props.handleClose}>
+      <form className="login-form" onSubmit={this.props.handleLogin.bind(null, user)}> 
+        <a className="login-form__close" href="#" onClick={this.props.handleClose}>
           <span className="icon-cross" />
         </a>
         <input ref={this.bindRefs} type='email' name='email' placeholder="EMAIL" onChange={this.handleOnChange} />
         <input type='password' name='password' placeholder="PASSWORD" onChange={this.handleOnChange} />
         <a href="#">forgot your password?</a>
-        <input className={buttonStyles.account} type='submit' value='login' /> 
+        <input className="button__submit" type='submit' value='login' /> 
         {ReactDOM.createPortal(
-          <div className={styles.backDrop}>BACKDROP</div>,
+          <div className="backdrop">BACKDROP</div>,
           document.body
         )}        
       </form>          

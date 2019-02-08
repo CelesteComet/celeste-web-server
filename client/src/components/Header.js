@@ -3,13 +3,14 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import LogoutLink from './LogoutLink';
 import { openLoginForm, toggleSideBarNav } from '../actions/uiActions';
+import Hamburger from './Hamburger';
 
 import styles from '../scss/header.scss';
 
 function Header({state, dispatch}) {
   const { user } = state;
   return (
-    <header className={styles.header}>
+    <header>
       <nav>
         <ul>
           <li><Link to="/">Pursey</Link></li>
@@ -24,9 +25,8 @@ function Header({state, dispatch}) {
         <ul>
           <li>
             <Link to="/">
-              <span 
-                className="icon-menu"
-                onClick={(e) => { e.preventDefault(); dispatch(toggleSideBarNav()) }}>
+              <span onClick={(e) => {e.preventDefault(); dispatch(toggleSideBarNav()) }}>
+                <Hamburger />
               </span>
             </Link>
           </li>

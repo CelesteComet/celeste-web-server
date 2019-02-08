@@ -25,7 +25,7 @@ class BagsIndexPage extends Component {
     }
 
     return (
-      <div className={styles.bagsIndex}>
+      <div className="bags-index">
         {bags.map((bag, i) => {
           return <BagsIndexPageItem key={i} bag={bag} />
         })}

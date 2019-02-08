@@ -17,12 +17,7 @@ module.exports = {
             loader: "style-loader"
           },
           {
-            loader: 'css-loader',
-            options: {
-              sourceMap: true,
-              modules: true,
-              localIdentName: '[local]___[hash:base64:5]'
-            }
+            loader: 'css-loader'
           },          
           "sass-loader"   // compiles Sass to CSS, using Node Sass by default
         ],

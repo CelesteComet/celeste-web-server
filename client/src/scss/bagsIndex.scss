@@ -1,7 +1,7 @@
 @import 'variables';
 @import 'mixins';
 
-:local .bagsIndex {
+.bags-index {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-gap: $gutter-width;

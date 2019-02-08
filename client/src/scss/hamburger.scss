@@ -1,0 +1,78 @@
+$half: 100ms;
+$full: 300ms;
+$animSpeed: 150ms;
+.hamburger-icon {
+  .bread-top, .bread-bottom {
+    height: 30px;
+    width: 30px;
+    position: absolute;
+    display: block;
+
+    span {
+      height: 1px;
+      width: 18px;
+      background: white;
+      left: 50%;
+      transform: translateX(-50%);
+      position: absolute;
+    }    
+  }
+
+  &.on {
+    .bread-top {
+      transform: rotateZ(45deg);
+      transition: transform $animSpeed ease-in-out $full;
+
+      span {
+        top: 14px;
+        transition: top $animSpeed ease-in-out $half;
+      }
+    }
+
+    .bread-bottom {
+      transform: rotateZ(-45deg);
+      transition: transform $animSpeed ease-in-out $full;
+
+      span {
+        bottom: 15px;
+        transition: bottom $animSpeed ease-in-out $half;
+      }      
+    }
+  }
+
+  &.off {
+    .bread-top {
+      transform: rotateZ(0deg);
+      transition: transform $animSpeed ease-in-out $half;
+
+      span {
+        top: 10px;
+        transition: top $animSpeed ease-in-out $full;
+      }
+    }
+
+    .bread-bottom {
+      transform: rotateZ(0deg);
+      transition: transform $animSpeed ease-in-out $half;
+
+      span {
+        bottom: 10px;
+        transition: bottom $animSpeed ease-in-out $full;
+      }      
+    }
+  }  
+
+  .bread-top {
+    span {
+      top: 10px;
+    }
+  }
+
+  .bread-bottom {
+    span {
+      bottom: 10px;
+    }
+  }
+
+
+}

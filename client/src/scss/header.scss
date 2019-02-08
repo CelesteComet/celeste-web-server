@@ -1,7 +1,7 @@
 @import 'variables';
 @import 'mixins';
 
-:local .header {
+header {
   height: $header-height;
   background-color: theme-color('background', 'base');
   position: fixed;
@@ -13,18 +13,13 @@
     padding-bottom: 8px;    
     display: none;
 
-    span {
-      position: relative;
-      font-size: 2.0rem;
-      left: $gutter-width;
-    }
 
     @include for-tablet-portrait-up {
       display: block;
     }
   }
 
-  :global .mobile {
+  .mobile {
     display: block;
 
     @include for-tablet-portrait-up {
