@@ -1,6 +1,8 @@
 const merge = require('webpack-merge');
 const common = require('./webpack.common.js');
 const webpack = require('webpack');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 
 module.exports = merge(common, {
   mode: 'development',
@@ -11,6 +13,26 @@ module.exports = merge(common, {
       AUTH_URL: 'http://localhost:1337'
     })
   ],    
+  module: {
+    rules: [ 
+      { test: /\.js$/, exclude: /node_modules/, loader: "babel-loader" },
+      {
+        test: /\.scss$/,
+        use: [
+          { loader: "style-loader" },
+          { loader: 'css-loader' },          
+          { loader: "sass-loader"}   // compiles Sass to CSS, using Node Sass by default
+        ],
+      },
+      {
+        test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+        use: [{
+          loader: 'file-loader',
+          options: { name: '[name].[ext]' }
+        }]
+      }      
+    ]
+  },  
   devServer: {  
     contentBase: './dist',
     historyApiFallback: true,// Fall back to index.html in case file in server can't be found

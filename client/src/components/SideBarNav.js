@@ -30,24 +30,17 @@ class SideBarNav extends Component {
   render() {
     return (
       <div>
-        <ReactCSSTransitionGroup
-          transitionName="sidebar"
-          transitionEnterTimeout={600}
-          transitionLeaveTimeout={600}>
-            {this.state.visible &&       
-              <div className='sidebar-nav'>
-                <nav>
-                  <ul onClick={this.props.handleMenuItemClick}>
-                    <li><Link to="/">HOME</Link></li>
-                    <li><Link to="">DATABASE</Link></li>
-                    <li><Link to="">ADD BAG</Link></li>
-                    <li><Link to="">STORIES</Link></li>
-                    <li><Link to="">TAGS</Link></li>
-                  </ul>
-                </nav>
-              </div>
-            }
-        </ReactCSSTransitionGroup>
+        <div className={`sidebar-nav ${this.state.visible ? 'on' : ''}`}>
+          <nav>
+            <ul onClick={this.props.handleMenuItemClick}>
+              <li><Link disabled to="/">HOME</Link></li>
+              <li><Link to="">DATABASE</Link></li>
+              <li><Link to="">ADD BAG</Link></li>
+              <li><Link to="">STORIES</Link></li>
+              <li><Link to="">TAGS</Link></li>
+            </ul>
+          </nav>
+        </div>
       </div>
     );
   }

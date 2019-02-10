@@ -16,8 +16,8 @@ function Header({state, dispatch}) {
           <li><Link to="/">Pursey</Link></li>
           <li><Link to="/bags">Bags</Link></li>
           <li><Link to="/bags">Add Bag</Link></li>
+          <li><Link to="/login">Login</Link></li>
           { user ? <li><LogoutLink /></li> : null }
-          { user ? <li>{user.email}</li> : <li onClick={() => {dispatch(openLoginForm()) }}>Login</li>}
         </ul>
       </nav>
       {/* MOBILE NAV */}

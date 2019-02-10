@@ -1,7 +1,18 @@
 @import 'variables';
 @import 'mixins';
 
-.app {
+.main {
   position: relative;
   top: $header-height;
-};
+  overflow: none;
+}
+
+.wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: $gutter-width;
+
+  @media (min-width: $screen-mobile-sm) {
+    padding: $gutter-width * 2;
+  }
+}

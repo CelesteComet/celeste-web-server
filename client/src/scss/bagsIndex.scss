@@ -8,6 +8,16 @@
   padding: $gutter-width;
   text-align: center;
 
+  @media (min-width: $screen-tablet-sm) {
+    grid-template-columns: repeat(9, 50px);
+
+    div {
+      border: 1px solid black;
+      width: 50px;
+      height: 50px;
+    }
+  }
+
   div {
     img {
       width: 100%;

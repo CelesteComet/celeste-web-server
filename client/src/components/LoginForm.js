@@ -12,21 +12,25 @@ class LoginForm extends React.Component {
     super(props);
     this.state = {
       email: "",
-      password: ""
+      password: "",
+      errors: []
     }
     this.bindRefs = this.bindRefs.bind(this);
     this.handleOnChange = this.handleOnChange.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState) {
-    // if (prevProps.state.ui.vLoginForm !== this.props.state.ui.vLoginForm) {
-    //   this.emailInput.focus();
-    // }
+    if (prevProps.errors !== this.props.errors) {
+      this.setState({
+        errors: this.props.errors
+      })
+    }
   }
 
   handleOnChange(e) {
     this.setState({
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
+      errors: []
     })
   }
 
@@ -35,20 +39,29 @@ class LoginForm extends React.Component {
   }
 
   render() {
+    let errors;
+    if (this.state.errors) {
+      errors = (
+        this.state.errors.map(err => {
+          return <li className="errors">{err}</li>
+        })
+      );
+    }
     const user = this.state;
     return (
       <form className="login-form" onSubmit={this.props.handleLogin.bind(null, user)}> 
         <a className="login-form__close" href="#" onClick={this.props.handleClose}>
-          <span className="icon-cross" />
+          {/*<span className="icon-cross" />*/}
         </a>
+
         <input ref={this.bindRefs} type='email' name='email' placeholder="EMAIL" onChange={this.handleOnChange} />
         <input type='password' name='password' placeholder="PASSWORD" onChange={this.handleOnChange} />
         <a href="#">forgot your password?</a>
-        <input className="button__submit" type='submit' value='login' /> 
-        {ReactDOM.createPortal(
-          <div className="backdrop">BACKDROP</div>,
-          document.body
-        )}        
+        <input className="button__submit" type='submit' value='login' />
+        <a href="/auth/google" >LOGIN WITH GOOGLE</a>
+        <ul> 
+          { errors }
+        </ul>
       </form>          
     );
   }

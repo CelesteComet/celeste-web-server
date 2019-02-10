@@ -35,6 +35,7 @@ type Bag struct {
 	Brand      string `json:"brand"`
 	Image_url  string `json:"image_url"`
 	Created_by int `json:"created_by"`
+	Created_at string `json:"created_at"`
 }
 
 type BagService interface {

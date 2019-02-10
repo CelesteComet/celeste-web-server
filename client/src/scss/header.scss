@@ -16,6 +16,8 @@ header {
 
     @include for-tablet-portrait-up {
       display: block;
+
+      ul { display: flex; }
     }
   }
 

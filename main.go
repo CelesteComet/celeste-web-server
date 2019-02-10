@@ -1,15 +1,17 @@
 package main
 
 import (
+	"context"
 	"fmt"
-	"github.com/CelesteComet/celeste-web-server/app"
-	"github.com/CelesteComet/celeste-web-server/routes"
-	"github.com/gorilla/mux"
-	_ "github.com/lib/pq"
 	"log"
 	"net/http"
 	"os"
+
+	"github.com/dgrijalva/jwt-go"
+	"github.com/gorilla/mux"
 	"github.com/jmoiron/sqlx"
+	_ "github.com/lib/pq"
+	// "encoding/json"
 )
 
 // Declare the database
@@ -25,8 +27,40 @@ var (
 	connStr = fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", host, port, user, password, dbname)
 )
 
-func SayHello() string {
-	return "HELLO"
+func authenticateUser(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		cookie, err := r.Cookie("jwt")
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusUnauthorized)
+			return
+		}
+
+		// If Cookie exists, check the JWT
+		tokenString := cookie.Value
+
+		token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
+			// Don't forget to validate the alg is what you expect:
+			if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+				return nil, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])
+			}
+			// hmacSampleSecret is a []byte containing your secret, e.g. []byte("my_secret_key")
+			hmacSampleSecret := []byte("secret")
+			return hmacSampleSecret, nil
+		})
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusUnauthorized)
+			return
+		}
+
+		claims, ok := token.Claims.(jwt.MapClaims)
+		if !ok || !token.Valid {
+			http.Error(w, err.Error(), http.StatusUnauthorized)
+			return
+		}
+
+		ctx := context.WithValue(r.Context(), "ctx", claims)
+		next.ServeHTTP(w, r.WithContext(ctx))
+	})
 }
 
 func main() {
@@ -38,15 +72,52 @@ func main() {
 	log.Println("Server connection successful")
 	defer db.Close()
 
+	// Connect Handlers With Database
+	BagHandler := BagHandler{DB: db}
+	AuthHandler := AuthHandler{}
+
 	// Create a Router
 	router := mux.NewRouter()
 
+	// Public files that are stored on server with static files for React client
+	serverFilesHandler := http.StripPrefix("/public/", http.FileServer(http.Dir("./public")))
+	// staticFilesHandler := http.FileServer(http.Dir("./client/dist"))
+
+	// Top Namespace API Routes
+	apiRoutes := router.PathPrefix("/api").Subrouter()
+	authRoutes := router.PathPrefix("/auth").Subrouter()
+
+	// Auth Routes
+	authRoutes.Handle("", AuthHandler.Login()).Methods("Post")
+	authRoutes.Handle("", AuthHandler.Logout()).Methods("Delete")
+	// authRoutes.Handle("", AuthHandler.SignUp()).Methods("Post")
+
+	// Sub API routes
+	bagRoutes := apiRoutes.PathPrefix("/bags").Subrouter()
+
+	// API routes
+	bagRoutes.Handle("", authenticateUser(BagHandler.Index())).Methods("Get")
+	bagRoutes.Handle("", BagHandler.Create()).Methods("Post")
+	bagRoutes.Handle("/{n}", BagHandler.Show()).Methods("Get")
+	bagRoutes.Handle("/{n}", BagHandler.Update()).Methods("Put")
+	bagRoutes.Handle("/{n}", BagHandler.Destroy()).Methods("Delete")
+
+	// Server Routes
+	router.PathPrefix("/public/").Handler(serverFilesHandler)
+	router.PathPrefix("/").HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		relativeFilePath := "./client/dist" + r.RequestURI
+		_, err := os.Stat(relativeFilePath)
+		if err != nil {
+			http.ServeFile(w, r, "./client/dist/index.html")
+		}
+		http.ServeFile(w, r, relativeFilePath)
+	})
+
 	// Create a Server
-	s := &app.Server{Database: db, Router: router, Port: ":8080"}
+	server := &http.Server{
+		Handler: router,
+		Addr:    ":8080",
+	}
 
-	// Initialize Server Routes
-	routes.InitRoutes(s)
-
-	// Start the Server
-	http.ListenAndServe(s.Port, s.Router)
+	server.ListenAndServe()
 }

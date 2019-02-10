@@ -2,21 +2,15 @@
 @import 'variables';
 
 .login-form {
-  background: theme-color('background', 'dark');
   font-size: $font-size-md;
-  height: 100vh;
   width: 100%;
-  padding: 40px;
   top: 0;
   z-index: 4;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);  
 
   @include for-tablet-portrait-up {
     width: 400px;
     height: 600px;
+    padding: 0px;
   }
 
   label {
@@ -59,38 +53,4 @@
   opacity: 0.9;
 }
 
-.swipe-down-enter {
-  opacity: 0.01;
-  transform: translate(-50%, -150%);  
-}
-
-.swipe-down-enter.swipe-down-enter-active {
-  opacity: 1;
-  transition: all 300ms cubic-bezier(1,1,1,1);
-  transform: translate(-50%, -50%); 
-  will-change: transform;
-}
-
-.swipe-down-leave {
-  opacity: 1;
-}
-
-.swipe-down-leave.swipe-down-leave-active {
-  opacity: 0.01;
-  transition: all 300ms cubic-bezier(1,1,1,1);
-  transform: translate(-50%, -150%);
-  will-change: transform;
-}
-
-.swipe-down-appear {
-  opacity: 0.01;
-  transform: translate(-50%, -150%);  
-}
-
-.swipe-down-appear.swipe-down-appear-active {
-  opacity: 1;
-  transition: all 300ms cubic-bezier(1,1,1,1);
-  transform: translate(-50%, -50%); 
-  will-change: transform;
-}
 

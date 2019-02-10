@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { fetchUser } from '../actions/userActions';
 
 import LoginFormContainer from './LoginFormContainer';
+import LoginPage from './LoginPage';
 import NotFound from './NotFound';
 import BagsIndexPage from './BagsIndexPage';
 import Header from './Header';
@@ -45,10 +46,10 @@ setTimeout(function(){
           <SideBarNav 
             visible={vSideBarNav} 
             handleMenuItemClick={this.handleMenuItemClick} />
-          <LoginFormContainer />
-          <div className={styles.app}>
+          <div className="main">
             <Switch>
               <Route path="/" exact component={ Home } />
+              <Route path="/login" exact component={ LoginPage } />
               <Route path="/bags" component={ BagsIndexPage } />
               {/*<Redirect from="/old-match" to="/will-match" />*/}
               <AuthRoute path="/p" component={ BagsIndexPage } />
