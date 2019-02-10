@@ -5,16 +5,15 @@ import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 import { connect } from 'react-redux';
 import { fetchUser } from '../actions/userActions';
 
-import LoginFormContainer from './LoginFormContainer';
 import LoginPage from './LoginPage';
 import NotFound from './NotFound';
 import BagsIndexPage from './BagsIndexPage';
-import Header from './Header';
-import SideBarNav from './SideBarNav';
 import AuthRoute from './HOC/AuthRoute';
 
 import { toggleSideBarNav } from '../actions/uiActions';
 import styles from '../scss/app.scss';
+import HeaderContainer from './HeaderContainer';
+import SideBarNav from './SideBarNav';
 
 class App extends Component {
   constructor(props) {
@@ -22,10 +21,10 @@ class App extends Component {
   }
 
   componentDidMount() {
+    // Check if user is logged in
+    console.log("Checking if user is logged in");
     const { dispatch } = this.props;
-setTimeout(function(){
-    document.body.className="";
-},500);    
+    dispatch(fetchUser())
   }
 
   handleMenuItemClick(e) {
@@ -42,7 +41,7 @@ setTimeout(function(){
     return (
       <Router>
         <Fragment>
-          <Header />
+          <HeaderContainer />
           <SideBarNav 
             visible={vSideBarNav} 
             handleMenuItemClick={this.handleMenuItemClick} />

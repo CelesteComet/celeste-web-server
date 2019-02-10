@@ -58,7 +58,8 @@ func authenticateUser(next http.Handler) http.Handler {
 			return
 		}
 
-		ctx := context.WithValue(r.Context(), "ctx", claims)
+		var key interface{} = "ctx"
+		ctx := context.WithValue(r.Context(), key, claims)
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})
 }
@@ -96,7 +97,7 @@ func main() {
 	bagRoutes := apiRoutes.PathPrefix("/bags").Subrouter()
 
 	// API routes
-	bagRoutes.Handle("", authenticateUser(BagHandler.Index())).Methods("Get")
+	bagRoutes.Handle("", BagHandler.Index()).Methods("Get")
 	bagRoutes.Handle("", BagHandler.Create()).Methods("Post")
 	bagRoutes.Handle("/{n}", BagHandler.Show()).Methods("Get")
 	bagRoutes.Handle("/{n}", BagHandler.Update()).Methods("Put")

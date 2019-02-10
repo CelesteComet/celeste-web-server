@@ -7,8 +7,7 @@ import Hamburger from './Hamburger';
 
 import styles from '../scss/header.scss';
 
-function Header({state, dispatch}) {
-  const { user } = state;
+function Header({login, logout, user}) {
   return (
     <header>
       <nav>
@@ -16,8 +15,17 @@ function Header({state, dispatch}) {
           <li><Link to="/">Pursey</Link></li>
           <li><Link to="/bags">Bags</Link></li>
           <li><Link to="/bags">Add Bag</Link></li>
-          <li><Link to="/login">Login</Link></li>
-          { user ? <li><LogoutLink /></li> : null }
+          { !user && 
+            <li>
+              <Link to="/login">Login</Link>
+            </li> 
+          }
+          {
+            user &&
+            <li>
+              <a onClick={logout}>Logout</a>
+            </li>
+          }
         </ul>
       </nav>
       {/* MOBILE NAV */}
@@ -32,17 +40,9 @@ function Header({state, dispatch}) {
           </li>
         </ul>
       </nav>
-    </header>
+    </header>  
   );
 }
 
-const mapStateToProps = state => {
-  return { state }
-}
-
-const mapDispatchToProps = dispatch => {
-  return { dispatch }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Header)
+export default Header;
 

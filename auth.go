@@ -8,7 +8,6 @@ import (
 
 	"gopkg.in/matryer/respond.v1"
 	"gopkg.in/resty.v1"
-	// "fmt"
 )
 
 type AuthHandler struct{}
@@ -30,24 +29,25 @@ func (h *AuthHandler) Login() http.Handler {
 			SetBody(string(body)).
 			Post("http://localhost:1337/login")
 
-		if resp.StatusCode() == 200 {
-			http.SetCookie(w, &http.Cookie{
-				Name:     "jwt",
-				Value:    resp.Header().Get("jwt"),
-				HttpOnly: true,
-				Path:     "/",
-			})
-
-			user := make(map[string]interface{})
-			json.Unmarshal(resp.Body(), &user)
-			respond.With(w, r, resp.StatusCode(), user)
-			return
-		} else {
-			err := []string{}
-			json.Unmarshal(resp.Body(), &err)
-			respond.With(w, r, resp.StatusCode(), err)
+		if resp.StatusCode() != 200 {
+			myErrors := []string{}
+			json.Unmarshal(resp.Body(), &myErrors)
+			respond.With(w, r, resp.StatusCode(), myErrors)
 			return
 		}
+
+		http.SetCookie(w, &http.Cookie{
+			Name:     "jwt",
+			Value:    resp.Header().Get("jwt"),
+			HttpOnly: true,
+			Path:     "/",
+		})
+
+		user := make(map[string]interface{})
+		json.Unmarshal(resp.Body(), &user)
+		respond.With(w, r, resp.StatusCode(), user)
+		return
+
 	})
 }
 

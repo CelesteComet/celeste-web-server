@@ -21,7 +21,7 @@ module.exports = merge(common, {
         use: [
           { loader: "style-loader" },
           { loader: 'css-loader' },          
-          { loader: "sass-loader"}   // compiles Sass to CSS, using Node Sass by default
+          { loader: "sass-loader"} // compiles Sass to CSS, using Node Sass by default
         ],
       },
       {
@@ -35,7 +35,7 @@ module.exports = merge(common, {
   },  
   devServer: {  
     contentBase: './dist',
-    historyApiFallback: true,// Fall back to index.html in case file in server can't be found
+    historyApiFallback: true, // Fall back to index.html in case file in server can't be found
     proxy: {
       '/api': {
         target: 'http://localhost:8080',
