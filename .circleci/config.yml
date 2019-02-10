@@ -19,6 +19,7 @@ jobs:
             echo 'export PORT_TO_CONTAINER_MAP=80:8080' >> $BASH_ENV
             echo 'export AWS_DB_USERNAME=$AWS_DB_USERNAME' >> $BASH_ENV
             echo 'export AWS_DB_PASSWORD=$AWS_DB_PASSWORD' >> $BASH_ENV
+            echo 'export GOPATH=/home/circleci/go' >> $BASH_ENV
       - run:
           name: Fetch Dependencies
           command: |
