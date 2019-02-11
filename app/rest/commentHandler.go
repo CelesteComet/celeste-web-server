@@ -3,6 +3,7 @@ package rest
 import (
 	"encoding/json"
 	"io/ioutil"
+	"log"
 	"net/http"
 
 	"github.com/CelesteComet/celeste-web-server/app"
@@ -89,6 +90,29 @@ func (h *CommentHandler) Update() http.Handler {
 
 func (h *CommentHandler) Destroy() http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		log.Println("DELETING A COMMENT")
+		comment := Comment{}
+		userID := r.Context().Value("ctx").(jwt.MapClaims)["id"].(float64)
+		commentID := mux.Vars(r)["id"]
 
+		query := `select * from comments where id = $1`
+		err := h.DB.Get(&comment, query, commentID)
+		if err != nil {
+			respond.With(w, r, http.StatusBadRequest, []string{err.Error()})
+			return
+		}
+
+		if float64(comment.CreatedBy) != userID {
+			respond.With(w, r, http.StatusUnauthorized, []string{"Not Authorized"})
+			return
+		}
+
+		_, err = h.DB.Queryx(`delete from comments where id = $1`, commentID)
+		if err != nil {
+			respond.With(w, r, http.StatusInternalServerError, []string{err.Error()})
+			return
+		}
+
+		respond.With(w, r, http.StatusOK, comment)
 	})
 }

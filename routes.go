@@ -53,7 +53,8 @@ func (s *Server) Routes() {
 	bagRoutes.Handle("/{n}", BagHandler.Destroy()).Methods("Delete")
 
 	commentRoutes.Handle("", authenticateUser(CommentHandler.Index())).Methods("Get")
-	commentRoutes.Handle("/{id}", authenticateUser(CommentHandler.Create())).Methods("Post")
+	commentRoutes.Handle("", authenticateUser(CommentHandler.Create())).Methods("Post")
+	commentRoutes.Handle("/{id}", authenticateUser(CommentHandler.Destroy())).Methods("Delete")
 
 	// Server Routes
 	s.Router.PathPrefix("/public/").Handler(serverFilesHandler)
