@@ -42,7 +42,7 @@ export const loginUser = (user) => {
     let url = "/auth";
     return axios.post(url, user)
       .then(res => {
-        dispatch(receiveUser(res));   
+        dispatch(receiveUser(res.data));   
       })
       .catch(err => {
         dispatch(receiveErrors(err));
@@ -55,14 +55,8 @@ export const loginWithGoogle = () => {
     let url = `${process.env.AUTH_URL}${`/auth/google`}`;
     return axios.get(url)
       .then(res => {
-        console.log("WTF")
-        debugger;
-        console.log(res);
       })
       .catch(err => {
-        console.log("WawdawdTF")
-        debugger;
-        console.log(err.response.data);
       })
   } 
 }

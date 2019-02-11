@@ -26,6 +26,12 @@ function Header({login, logout, user}) {
               <a onClick={logout}>Logout</a>
             </li>
           }
+          {
+            user &&
+            <li>
+              {user.display_name}
+            </li>
+          }
         </ul>
       </nav>
       {/* MOBILE NAV */}

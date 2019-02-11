@@ -1,50 +1,56 @@
 package app
 
 import (
-	"github.com/gorilla/mux"
-	_ "github.com/lib/pq"
 	"net/http"
-	"github.com/jmoiron/sqlx"
 )
 
-type Server struct {
-	Port     string
-	Database *sqlx.DB
-	Router   *mux.Router
+// Server has a method Routes which initializes all routes
+type Server interface {
+	Routes()
 }
 
-type User struct {
-	Id       int    `json:"id"`
-	Email    string `json:"email"`
-	Password string `json:"password"`
+// AuthHandler interface describes authentication actions
+type AuthHandler interface {
+	Login() http.Handler
+	Logout() http.Handler
+	Authenticate() http.Handler
+	SignUp() http.Handler
 }
 
-type UserService interface {
-	CreateUser(email string, password string) (*User, error)
-	FindByCredentials(email string, password string) (*User, error)
-}
-
-type UserHandler interface {
-	CreateUser(email string, password string) (*User, error)
-	FindByCredentials(email string, password string) (*User, error)
-}
-
+// Bag represents a bag
 type Bag struct {
-	Id         int `json:"id"`
-	Name       string `json:"name"`
-	Brand      string `json:"brand"`
-	Image_url  string `json:"image_url"`
-	Created_by int `json:"created_by"`
-	Created_at string `json:"created_at"`
+	ID        int    `json:"id"`
+	Name      string `json:"name"`
+	Brand     string `json:"brand"`
+	ImageURL  string `json:"image_url"  db:"image_url"`
+	CreatedBy int    `json:"created_by" db:"created_by"`
+	CreatedAt string `json:"created_at" db:"created_at"`
 }
 
-type BagService interface {
-	Bag(id int) (*Bag, error)
-	Bags() ([]*Bag, error)
+// BagPage represents a single view of a bag
+type BagPage struct {
+	ID              int    `json:"id"`
+	Name            string `json:"name"`
+	Brand           string `json:"brand"`
+	ImageURL        string `json:"image_url"  db:"image_url"`
+	CreatedBy       int    `json:"created_by" db:"created_by"`
+	CreatedByMember string `json:"created_by_member" db:"created_by_member"`
+	CreatedAt       string `json:"created_at" db:"created_at"`
 }
 
+// BagHandler interface makes HTTP requests for bags
 type BagHandler interface {
-	GetBags() http.Handler
-	GetBag() http.Handler
-	GetUserBags() http.Handler
+	Index() http.Handler
+	Create() http.Handler
+	Show() http.Handler
+	ShowBagDetailPage() http.Handler
+	Update() http.Handler
+	Destroy() http.Handler
+}
+
+// CommentHandler responsible for making comments
+type CommentHandler interface {
+	GetComments() http.Handler
+	DeleteComment() http.Handler
+	UpdateComment() http.Handler
 }

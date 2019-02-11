@@ -1,31 +1,31 @@
-package main
+package rest
 
 import (
 	"encoding/json"
 	"log"
+
 	"net/http"
 	"strconv"
 
+	"github.com/CelesteComet/celeste-web-server/app"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gorilla/mux"
 	"github.com/jmoiron/sqlx"
+
 	"gopkg.in/matryer/respond.v1"
 )
 
-// Bag represents a bag
-type Bag struct {
-	ID        int    `json:"id"`
-	Name      string `json:"name"`
-	Brand     string `json:"brand"`
-	ImageURL  string `json:"image_url"  db:"image_url"`
-	CreatedBy int    `json:"created_by" db:"created_by"`
-	CreatedAt string `json:"created_at" db:"created_at"`
-}
-
-// BagHandler handles API
+// BagHandler implements app.BagHandler for PostgreSQL
 type BagHandler struct {
 	DB *sqlx.DB
 }
+
+// BagHandler implements app.BagHandler
+var _ app.BagHandler = &BagHandler{}
+
+// Bag is a type of app.Bag
+type Bag app.Bag
+type BagPage app.BagPage
 
 // Index returns all bags
 func (h *BagHandler) Index() http.Handler {
@@ -78,7 +78,33 @@ func (h *BagHandler) Show() http.Handler {
 			respond.With(w, r, http.StatusInternalServerError, []string{err.Error()})
 			return
 		}
+
 		err = h.DB.Get(&bag, "SELECT * FROM Bag WHERE id = $1", i)
+		if err != nil {
+			respond.With(w, r, http.StatusInternalServerError, []string{err.Error()})
+			return
+		}
+		respond.With(w, r, http.StatusOK, bag)
+	})
+}
+
+// ShowBagDetailPage shows a bag detail page
+func (h *BagHandler) ShowBagDetailPage() http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		bag := BagPage{}
+		vars := mux.Vars(r)
+		i, err := strconv.Atoi(vars["n"])
+		if err != nil {
+			respond.With(w, r, http.StatusInternalServerError, []string{err.Error()})
+			return
+		}
+
+		query := `select bag.*, display_name as created_by_member 
+from bag 
+join member on member.id = bag.created_by 
+where bag.id = $1;`
+
+		err = h.DB.Get(&bag, query, i)
 		if err != nil {
 			respond.With(w, r, http.StatusInternalServerError, []string{err.Error()})
 			return

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { fetchBags } from '../actions';
+import { fetchBags } from '../actions/bagActions';
 import { connect } from 'react-redux';
 import BagsIndexPageItem from './BagsIndexPageItem';
 

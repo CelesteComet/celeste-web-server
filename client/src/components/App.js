@@ -14,6 +14,7 @@ import { toggleSideBarNav } from '../actions/uiActions';
 import styles from '../scss/app.scss';
 import HeaderContainer from './HeaderContainer';
 import SideBarNav from './SideBarNav';
+import BagDetailPage from './BagDetailPage';
 
 class App extends Component {
   constructor(props) {
@@ -49,7 +50,8 @@ class App extends Component {
             <Switch>
               <Route path="/" exact component={ Home } />
               <Route path="/login" exact component={ LoginPage } />
-              <Route path="/bags" component={ BagsIndexPage } />
+              <Route path="/bags" exact component={ BagsIndexPage } />
+              <Route path="/bags/:id" component={ BagDetailPage } />
               {/*<Redirect from="/old-match" to="/will-match" />*/}
               <AuthRoute path="/p" component={ BagsIndexPage } />
               <Route component={ NotFound } />
