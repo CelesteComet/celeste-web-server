@@ -3,7 +3,6 @@ package rest
 import (
 	"encoding/json"
 	"io/ioutil"
-	"log"
 	"net/http"
 
 	"github.com/CelesteComet/celeste-web-server/app"
@@ -90,7 +89,6 @@ func (h *CommentHandler) Update() http.Handler {
 
 func (h *CommentHandler) Destroy() http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		log.Println("DELETING A COMMENT")
 		comment := Comment{}
 		userID := r.Context().Value("ctx").(jwt.MapClaims)["id"].(float64)
 		commentID := mux.Vars(r)["id"]
@@ -102,7 +100,7 @@ func (h *CommentHandler) Destroy() http.Handler {
 			return
 		}
 
-		if float64(comment.CreatedBy) != userID {
+		if comment.CreatedBy != int(userID) {
 			respond.With(w, r, http.StatusUnauthorized, []string{"Not Authorized"})
 			return
 		}
