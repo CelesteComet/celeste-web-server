@@ -26,6 +26,7 @@ func (s *Server) Routes() {
 	// Connect Handlers With Database
 	BagHandler := rest.BagHandler{DB: s.DB}
 	AuthHandler := rest.AuthHandler{}
+	CommentHandler := rest.CommentHandler{DB: s.DB}
 
 	// Public files that are stored on server with static files for React client
 	serverFilesHandler := http.StripPrefix("/public/", http.FileServer(http.Dir("./public")))
@@ -42,6 +43,7 @@ func (s *Server) Routes() {
 
 	// Sub API routes
 	bagRoutes := apiRoutes.PathPrefix("/bags").Subrouter()
+	commentRoutes := apiRoutes.PathPrefix("/{itemID}/comments").Subrouter()
 
 	// API routes
 	bagRoutes.Handle("", BagHandler.Index()).Methods("Get")
@@ -49,6 +51,9 @@ func (s *Server) Routes() {
 	bagRoutes.Handle("/{n}", BagHandler.ShowBagDetailPage()).Methods("Get")
 	bagRoutes.Handle("/{n}", BagHandler.Update()).Methods("Put")
 	bagRoutes.Handle("/{n}", BagHandler.Destroy()).Methods("Delete")
+
+	commentRoutes.Handle("", authenticateUser(CommentHandler.Index())).Methods("Get")
+	commentRoutes.Handle("/{id}", authenticateUser(CommentHandler.Create())).Methods("Post")
 
 	// Server Routes
 	s.Router.PathPrefix("/public/").Handler(serverFilesHandler)

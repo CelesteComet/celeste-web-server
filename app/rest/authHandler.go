@@ -76,7 +76,7 @@ func (h *AuthHandler) Authenticate() http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		cookie, err := r.Cookie("jwt")
 		if err != nil {
-			http.Error(w, err.Error(), http.StatusUnauthorized)
+			respond.With(w, r, http.StatusUnauthorized, []string{err.Error()})
 			return
 		}
 
@@ -93,13 +93,13 @@ func (h *AuthHandler) Authenticate() http.Handler {
 			return hmacSampleSecret, nil
 		})
 		if err != nil {
-			http.Error(w, err.Error(), http.StatusUnauthorized)
+			respond.With(w, r, http.StatusUnauthorized, []string{err.Error()})
 			return
 		}
 
 		claims, ok := token.Claims.(jwt.MapClaims)
 		if !ok || !token.Valid {
-			http.Error(w, err.Error(), http.StatusUnauthorized)
+			respond.With(w, r, http.StatusUnauthorized, []string{err.Error()})
 			return
 		}
 

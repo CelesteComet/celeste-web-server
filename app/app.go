@@ -48,9 +48,21 @@ type BagHandler interface {
 	Destroy() http.Handler
 }
 
+// Represents a comment
+type Comment struct {
+	ID              int    `json:"id"`
+	ItemID          int    `json:"item_id" db:"item_id"`
+	Content         string `json:"content"`
+	CreatedBy       int    `json:"created_by" db:"created_by"`
+	CreatedByMember string `json:"created_by_member" db:"created_by_member"`
+	CreatedAt       string `json:"created_at" db:"created_at"`
+}
+
 // CommentHandler responsible for making comments
 type CommentHandler interface {
-	GetComments() http.Handler
-	DeleteComment() http.Handler
-	UpdateComment() http.Handler
+	Index() http.Handler
+	Create() http.Handler
+	Show() http.Handler
+	Destroy() http.Handler
+	Update() http.Handler
 }
