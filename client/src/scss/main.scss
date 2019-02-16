@@ -1,6 +1,16 @@
-@import './reset';
-@import './variables';
-@import './fonts';
-@import './typography';
-@import './icons';
+@import 'reset';
+@import 'variables';
+@import 'fonts';
+@import 'typography';
+@import 'icons';
+
+@import 'app';
+
+@import 'bagDetailPage';
+@import 'hamburger';
+@import 'buttons';
+@import 'bagsIndex';
+@import 'header';
+@import 'sideBarNav';
+@import 'commentsList';
 

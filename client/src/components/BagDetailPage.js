@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { connect }  from 'react-redux';
 import { fetchBag } from '../actions/bagActions';
-import { postComment, fetchComments } from '../actions/commentActions';
+import { postComment, fetchComments, deleteComment } from '../actions/commentActions';
 import PageLoadSpinner from './PageLoadSpinner';
-import MyStatefulEditor from './MyStatefulEditor';
+import { Comment } from '../models';
+import CommentsList from './CommentsList';
 
 class BagDetailPage extends Component {
   constructor(props) {
@@ -11,7 +12,7 @@ class BagDetailPage extends Component {
 
     this.state = {
       loading: true,
-      comment: ""
+      comment: new Comment
     }
 
     this.handleChange = this.handleChange.bind(this);
@@ -19,7 +20,7 @@ class BagDetailPage extends Component {
   }
 
   componentDidMount() {
-    const { fetchBag } = this.props;
+    const { fetchBag, fetchComments } = this.props;
     const { id } = this.props.match.params;
     fetchBag(id);
     fetchComments(id);
@@ -33,21 +34,16 @@ class BagDetailPage extends Component {
     }
   }
 
-  handleChange(value) {
-    this.setState({
-      comment: value
-    })
+  handleChange(e) {
+    let comment = Object.assign({}, this.state.comment);
+    comment.content = e.target.value;
+    this.setState({ comment })
   }
 
   handleCommentSubmission() {
-    let comment = {
-      content: this.state.comment,
-      created_by: 165,
-      item_id: this.props.bag.id
-    };
-
-    this.props.postComment(comment)
-    
+    let comment = this.state.comment;
+    comment.item_id = this.props.bag.id
+    this.props.postComment(comment);
   }
 
   render() {
@@ -56,18 +52,21 @@ class BagDetailPage extends Component {
     }
 
     const { name, brand, image_url, created_by_member } = this.props.bag;
+    const { user, deleteComment } = this.props;
 
     return (
-      <div className="wrapper">
+      <div className="wrapper bag-detail-page">
         <h1>{ name }</h1>
         <h1>{ brand }</h1>
         <h1>created by {created_by_member}</h1>
         <img src={image_url} alt={name} style={{width: '400px'}}></img>
-        <MyStatefulEditor onChange={this.handleChange}/>
-        <div onClick={this.handleCommentSubmission}>POST COMMENT</div>
-        { this.props.comments.map((comment) => {
-          return <p>{comment.created_by}: {comment.content}</p>
-        })}
+        { user && 
+          <div>
+            <textarea onChange={this.handleChange} /> 
+            <button className="button__submit" onClick={this.handleCommentSubmission}>POST COMMENT</button>
+          </div>
+        }
+        <CommentsList comments={this.props.comments} user={user} deleteComment={deleteComment}/>
       </div>
     );
   }
@@ -76,7 +75,8 @@ class BagDetailPage extends Component {
 const mSTP = state => {
   return { 
     bag: state.bags[0] ? state.bags[0] : null,
-    comments: state.comments
+    comments: state.comments,
+    user: state.user
   }
 }
 
@@ -91,6 +91,9 @@ const mDTP = dispatch => {
     postComment: (comment) => {
       dispatch(postComment(comment))
     },
+    deleteComment: (id) => {
+      dispatch(deleteComment(id))
+    }
   }
 }
 

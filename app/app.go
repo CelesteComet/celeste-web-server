@@ -48,13 +48,14 @@ type BagHandler interface {
 	Destroy() http.Handler
 }
 
-// Represents a comment
+// Comment represents a comment
 type Comment struct {
 	ID              int    `json:"id"`
 	ItemID          int    `json:"item_id" db:"item_id"`
-	Content         string `json:"content"`
+	Content         string `json:"content" db:"content"`
 	CreatedBy       int    `json:"created_by" db:"created_by"`
 	CreatedByMember string `json:"created_by_member" db:"created_by_member"`
+	GravatarHash    string `json:"gravatar_hash" db:"gravatar_hash"`
 	CreatedAt       string `json:"created_at" db:"created_at"`
 }
 

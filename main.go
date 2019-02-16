@@ -6,6 +6,8 @@ import (
 	"net/http"
 	"os"
 
+	"time/rate"
+
 	"github.com/gorilla/mux"
 	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
@@ -25,6 +27,19 @@ var (
 	connStr = fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", host, port, user, password, dbname)
 )
 
+var limiter = rate.NewLimiter(2, 5)
+
+func limit(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if limiter.Allow() == false {
+			http.Error(w, http.StatusText(429), http.StatusTooManyRequests)
+			return
+		}
+
+		next.ServeHTTP(w, r)
+	})
+}
+
 func main() {
 	log.Println("Connecting to AWS RDS Postgresql server")
 	db, err := sqlx.Open("postgres", connStr)
@@ -36,6 +51,7 @@ func main() {
 
 	// Create a Router
 	router := mux.NewRouter()
+	router.Use(limit)
 
 	// Create a Server
 	server := Server{

@@ -33,6 +33,8 @@
   "dependencies": {
     "axios": "^0.18.0",
     "babel-plugin-react-css-modules": "^5.0.0",
+    "md5": "^2.2.1",
+    "moment": "^2.24.0",
     "node-sass": "^4.11.0",
     "react": "^16.7.0",
     "react-addons-css-transition-group": "^15.6.2",

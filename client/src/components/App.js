@@ -15,6 +15,7 @@ import styles from '../scss/app.scss';
 import HeaderContainer from './HeaderContainer';
 import SideBarNav from './SideBarNav';
 import BagDetailPage from './BagDetailPage';
+import TypographyPage from './TypographyPage';
 
 class App extends Component {
   constructor(props) {
@@ -52,6 +53,7 @@ class App extends Component {
               <Route path="/login" exact component={ LoginPage } />
               <Route path="/bags" exact component={ BagsIndexPage } />
               <Route path="/bags/:id" component={ BagDetailPage } />
+              <Route path="/typo" component={ TypographyPage } />
               {/*<Redirect from="/old-match" to="/will-match" />*/}
               <AuthRoute path="/p" component={ BagsIndexPage } />
               <Route component={ NotFound } />

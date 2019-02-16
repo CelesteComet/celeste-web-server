@@ -11,7 +11,7 @@ import rootReducer from './reducers'
 import App from './components/App'
 
 // Import Font
-import styles from './scss/main';
+require('./scss/main.scss')
 
 let store;
 if (process.env.NODE_ENV === 'development') {

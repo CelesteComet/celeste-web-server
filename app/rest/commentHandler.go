@@ -1,7 +1,9 @@
 package rest
 
 import (
+	"crypto/md5"
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 
@@ -34,14 +36,21 @@ func (h *CommentHandler) Index() http.Handler {
 		itemID := mux.Vars(r)["itemID"]
 
 		query := `select 
-comments.id, comments.item_id, comments.created_by, display_name as created_by_member, comments.created_at 
+comments.id, comments.content, comments.item_id, comments.created_by, display_name as created_by_member, email as gravatar_hash, comments.created_at 
 from comments 
 join member on member.id = comments.created_by
-where comments.item_id = $1;`
+where comments.item_id = $1 order by comments.created_at desc`
 
 		err := h.DB.Select(&comments, query, itemID)
 		if err != nil {
 			respond.With(w, r, http.StatusBadRequest, []string{err.Error()})
+		}
+
+		// Hash the email with MD5 for Gravatar
+		for _, comment := range comments {
+			emailBytes := []byte(comment.GravatarHash)
+			gravatarHash := fmt.Sprintf("%x", md5.Sum(emailBytes))
+			comment.GravatarHash = gravatarHash
 		}
 		respond.With(w, r, http.StatusOK, comments)
 	})
@@ -58,6 +67,11 @@ func (h *CommentHandler) Create() http.Handler {
 			respond.With(w, r, http.StatusBadRequest, []string{err.Error()})
 		}
 		json.Unmarshal(bytes, &comment)
+
+		if comment.Content == "" {
+			respond.With(w, r, http.StatusBadRequest, []string{"Comment content can't be empty"})
+			return
+		}
 
 		query := `INSERT INTO comments (item_id, content, created_by) VALUES ($1, $2, $3) returning *`
 		rows, err := h.DB.Queryx(query, itemID, comment.Content, userID)

@@ -1,13 +1,26 @@
 @import 'variables';
 
+body {
+  line-height: 1.5;
+  font-size: 14px;
+}
+
 a {
   color: theme-color('accent', 'base');
   text-decoration: none;
 }
 
-h1 { font-size: 2em; }
-h2 { font-size: 1.5em; }
+textarea {
+  padding: 10px;    
+  font-size: inherit;
+  border-color: rgba(0,0,0,0.3);
+}
+
+h1 { font-size: 2em;    }
+h2 { font-size: 1.5em;  }
 h3 { font-size: 1.17em; }
 h4 { font-size: 1.12em; }
-h5 { font-size: .83em; }
-h6 { font-size: .75em; }
+h5 { font-size: .83em;  }
+h6 { font-size: .75em;  }
+
+small { font-size: .83em }

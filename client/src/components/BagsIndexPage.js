@@ -3,8 +3,6 @@ import { fetchBags } from '../actions/bagActions';
 import { connect } from 'react-redux';
 import BagsIndexPageItem from './BagsIndexPageItem';
 
-import styles from '../scss/bagsIndex.scss';
-
 class BagsIndexPage extends Component {
 
   constructor(props) {
