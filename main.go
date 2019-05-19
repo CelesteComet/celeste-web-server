@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"os"
 
-	"time/rate"
+	"golang.org/x/time/rate"
 
 	"github.com/gorilla/mux"
 	"github.com/jmoiron/sqlx"
