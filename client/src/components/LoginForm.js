@@ -27,7 +27,7 @@ class LoginForm extends React.Component {
   }
 
   handleOnChange(e) {
-    const user = {};
+    const user = this.state.user;
     user[e.target.name] = e.target.value;
     this.setState({
       user: user,
