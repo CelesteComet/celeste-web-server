@@ -36,7 +36,7 @@ func (h *AuthHandler) Login() http.Handler {
 		resp, err := resty.R().
 			SetHeader("Content-Type", "application/json").
 			SetBody(string(body)).
-			Post("http://localhost:1337/login")
+			Post("http://ec2-54-85-14-41.compute-1.amazonaws.com/login")
 
 		if resp.StatusCode() != 200 {
 			myErrors := []string{}
