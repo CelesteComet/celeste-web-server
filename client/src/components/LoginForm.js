@@ -11,8 +11,7 @@ class LoginForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: "",
-      password: "",
+      user: {email: '', password: ''},
       errors: []
     }
     this.bindRefs = this.bindRefs.bind(this);
@@ -28,8 +27,10 @@ class LoginForm extends React.Component {
   }
 
   handleOnChange(e) {
+    const user = {};
+    user[e.target.name] = e.target.value;
     this.setState({
-      [e.target.name]: e.target.value,
+      user,
       errors: []
     })
   }
