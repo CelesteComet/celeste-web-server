@@ -12,10 +12,10 @@ type Configuration struct {
 func New() (*Configuration, error) {
   var config Configuration = Configuration{}
   var configurationJSONPath string
-  if os.Getenv("ENVIRONMENT") == "DEV" {
-    configurationJSONPath = "./config/config.dev.json"
-  } else {
+  if os.Getenv("ENVIRONMENT") == "PROD" {
     configurationJSONPath = "./config/config.prod.json"
+  } else {
+    configurationJSONPath = "./config/config.dev.json"
   }
   
   file, err := os.Open(configurationJSONPath)

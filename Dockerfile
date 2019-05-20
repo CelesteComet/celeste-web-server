@@ -1,6 +1,9 @@
 ##################################
 FROM golang
 
+# Set ENV variables
+ENV ENVIRONMENT PROD
+
 # Build Executable Binary
 
 ADD . /go/src/github.com/CelesteComet/celeste-web-server

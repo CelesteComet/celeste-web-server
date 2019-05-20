@@ -58,7 +58,7 @@ func (s *Server) Routes(config *config.Configuration) {
 	commentRoutes.Handle("/{id}", authenticateUser(CommentHandler.Destroy())).Methods("Delete")
 
 	// Server Routes
-	s.Router.PathPrefix("/public/").Handler(serverFilesHandler)
+	s.Router.PathPrefix("/public/").Handler(authenticateUser(serverFilesHandler))
 	s.Router.PathPrefix("/").HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		relativeFilePath := "./client/dist" + r.RequestURI
 		log.Println(relativeFilePath)
