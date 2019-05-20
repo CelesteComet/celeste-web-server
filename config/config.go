@@ -19,7 +19,7 @@ func New() (*Configuration, error) {
     configurationJSONPath = "./config/config.dev.json"
   }
 
-  log.Println("Starting Up With " + os.Getenv("ENVIRONMENT") + "Environment.")
+  log.Println("Starting Up With " + os.Getenv("ENVIRONMENT") + " Environment.")
   
   file, err := os.Open(configurationJSONPath)
   if err != nil { 
