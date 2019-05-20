@@ -48,7 +48,7 @@ class LoginForm extends React.Component {
         })
       );
     }
-    const user = this.state;
+    const {user} = this.state;
     return (
       <form className="login-form" onSubmit={this.props.handleLogin.bind(null, user)}> 
         <a className="login-form__close" href="#" onClick={this.props.handleClose}>
