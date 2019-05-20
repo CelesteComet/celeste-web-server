@@ -31,7 +31,7 @@ func (h *AuthHandler) Login() http.Handler {
 			respond.With(w, r, http.StatusInternalServerError, []string{err.Error()})
 			return
 		}
-		
+
 		resty.SetDebug(true)
 		resp, err := resty.R().
 			SetHeader("Content-Type", "application/json").
@@ -40,7 +40,7 @@ func (h *AuthHandler) Login() http.Handler {
 
 		if resp.StatusCode() != 200 {
 			myErrors := []string{}
-			json.Unmarshal(err, &myErrors)
+			json.Unmarshal(resp , &myErrors)
 			respond.With(w, r, 500, myErrors)
 			return
 		}
