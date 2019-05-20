@@ -39,7 +39,7 @@ func (h *AuthHandler) Login() http.Handler {
 
 		if resp.StatusCode() != 200 {
 			myErrors := []string{}
-			json.Unmarshal(resp.Body(), &myErrors)
+			json.Unmarshal(err, &myErrors)
 			respond.With(w, r, 500, myErrors)
 			return
 		}
