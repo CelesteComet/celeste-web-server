@@ -3,6 +3,7 @@ package config
 import (  
   "os"
   "encoding/json"
+  "log"
 )
 
 type Configuration struct {
@@ -17,6 +18,8 @@ func New() (*Configuration, error) {
   } else {
     configurationJSONPath = "./config/config.dev.json"
   }
+
+  log.PrintLn("Starting Up With " + os.Getenv("ENVIRONMENT") + "Environment.")
   
   file, err := os.Open(configurationJSONPath)
   if err != nil { 
