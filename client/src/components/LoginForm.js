@@ -30,7 +30,7 @@ class LoginForm extends React.Component {
     const user = {};
     user[e.target.name] = e.target.value;
     this.setState({
-      user,
+      user: user,
       errors: []
     })
   }
