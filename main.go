@@ -10,6 +10,7 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/jmoiron/sqlx"
+	"github.com/CelesteComet/celeste-web-server/config"
 	_ "github.com/lib/pq"
 	// "encoding/json"
 )
@@ -49,6 +50,12 @@ func main() {
 	log.Println("Server connection successful")
 	defer db.Close()
 
+	// Initialize Configuration
+	config, err := config.New()
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	// Create a Router
 	router := mux.NewRouter()
 	router.Use(limit)
@@ -61,7 +68,7 @@ func main() {
 	}
 
 	// Initiate Routes
-	server.Routes()
+	server.Routes(config)
 
 	http.ListenAndServe(server.Port, server.Router)
 }

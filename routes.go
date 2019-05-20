@@ -8,6 +8,7 @@ import (
 	"os"
 
 	"github.com/CelesteComet/celeste-web-server/app/rest"
+	"github.com/CelesteComet/celeste-web-server/config"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gorilla/mux"
 	"github.com/jmoiron/sqlx"
@@ -21,11 +22,11 @@ type Server struct {
 }
 
 // Routes method initailizes routes on the router
-func (s *Server) Routes() {
+func (s *Server) Routes(config *config.Configuration) {
 
 	// Connect Handlers With Database
 	BagHandler := rest.BagHandler{DB: s.DB}
-	AuthHandler := rest.AuthHandler{}
+	AuthHandler := rest.AuthHandler{Config: config}
 	CommentHandler := rest.CommentHandler{DB: s.DB}
 
 	// Public files that are stored on server with static files for React client

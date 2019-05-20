@@ -8,6 +8,7 @@ import (
 	"net/http"
 
 	"github.com/CelesteComet/celeste-web-server/app"
+	"github.com/CelesteComet/celeste-web-server/config"
 
 	"github.com/dgrijalva/jwt-go"
 	"gopkg.in/matryer/respond.v1"
@@ -15,7 +16,9 @@ import (
 )
 
 // AuthHandler calls Auth microservice API to do authentication things
-type AuthHandler struct{}
+type AuthHandler struct{
+	Config *config.Configuration
+}
 
 var _ app.AuthHandler = &AuthHandler{}
 
@@ -36,7 +39,7 @@ func (h *AuthHandler) Login() http.Handler {
 		resp, err := resty.R().
 			SetHeader("Content-Type", "application/json").
 			SetBody(string(body)).
-			Post("http://ec2-54-85-14-41.compute-1.amazonaws.com/login")
+			Post(h.Config.AuthenticationServerEndpoint + "/login")
 
 		if resp.StatusCode() != 200 {
 			myErrors := []string{}
