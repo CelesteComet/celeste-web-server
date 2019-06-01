@@ -41,5 +41,5 @@ jobs:
       - run:
           name: SSH to AWS and run deploy.sh
           command: |
-            ssh -o StrictHostKeyChecking=no ec2-user@ec2-54-85-14-41.compute-1.amazonaws.com "/bin/bash ./deploy_app.sh $DOCKER_NAME/$IMAGE_NAME:$TAG $IMAGE_NAME $PORT_TO_CONTAINER_MAP"
+            ssh -o StrictHostKeyChecking=no ec2-user@ec2-54-172-5-144.compute-1.amazonaws.com "/bin/bash ./deploy_app.sh $DOCKER_NAME/$IMAGE_NAME:$TAG $IMAGE_NAME $PORT_TO_CONTAINER_MAP"
             echo 'Docker deploy script started'
