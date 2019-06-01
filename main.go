@@ -8,20 +8,20 @@ import (
 
 	"golang.org/x/time/rate"
 
+	"github.com/CelesteComet/celeste-web-server/config"
 	"github.com/gorilla/mux"
 	"github.com/jmoiron/sqlx"
-	"github.com/CelesteComet/celeste-web-server/config"
 	_ "github.com/lib/pq"
 	// "encoding/json"
 )
 
 // Declare the database
 var (
-	host     = "celestecomet.c7bjz8zer8ha.us-east-1.rds.amazonaws.com"
+	host     = "raja.db.elephantsql.com"
 	port     = 5432
 	user     = os.Getenv("AWS_DB_USERNAME")
 	password = os.Getenv("AWS_DB_PASSWORD")
-	dbname   = "CelesteComet"
+	dbname   = "umtggmht"
 )
 
 var (
